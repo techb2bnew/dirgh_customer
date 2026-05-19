@@ -38,6 +38,7 @@ import {
 import { BaseStyle } from '../constants/Style';
 import { style, spacings } from '../constants/Fonts';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../utils';
+import { ROUTE_CATEGORIES, ROUTE_ORDERS } from '../navigation/AppNavigator';
 
 const {
   flex,
@@ -263,10 +264,14 @@ const NewOrderScreen = () => {
           </Text>
 
           <View style={[flexDirectionRow, styles.linkRow]}>
-            <TouchableOpacity activeOpacity={0.7}>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => {
+              navigation.navigate(ROUTE_ORDERS)
+            }}>
               <Text style={styles.linkText}>{PREVIOUS_ORDERS}</Text>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.7}>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => {
+              // navigation.navigate(ROUTE_CATEGORIES)
+            }}>
               <Text style={styles.linkText}>{BROWSE_CATALOG}</Text>
             </TouchableOpacity>
           </View>

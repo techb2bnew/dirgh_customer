@@ -122,11 +122,11 @@ const FinancialSummaryScreen = () => {
   }, []);
 
   const handleViewLedger = () => {
-    navigation.navigate(ROUTE_VIEW_LEDGER, { account });
+    // navigation.navigate(ROUTE_VIEW_LEDGER, { account });
   };
 
   const handleMakePayment = () => {
-    navigation.navigate(ROUTE_MAKE_PAYMENT);
+    // navigation.navigate(ROUTE_MAKE_PAYMENT);
   };
 
   return (

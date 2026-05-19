@@ -26,6 +26,8 @@ const CustomInput = ({
   autoCapitalize = 'none',
   required = false,
   error = '',
+  multiline = false,
+  numberOfLines = 1,
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const hasError = Boolean(error);
@@ -42,6 +44,7 @@ const CustomInput = ({
           style={[
             styles.input,
             isPasswordField && styles.inputWithIcon,
+            multiline && styles.inputMultiline,
             hasError && styles.inputError,
           ]}
           placeholder={placeholder}
@@ -51,6 +54,9 @@ const CustomInput = ({
           secureTextEntry={isPasswordField && !isPasswordVisible}
           keyboardType={keyboardType}
           autoCapitalize={autoCapitalize}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
+          textAlignVertical={multiline ? 'top' : 'center'}
         />
         {isPasswordField ? (
           <TouchableOpacity
@@ -102,6 +108,10 @@ const styles = StyleSheet.create({
   },
   inputWithIcon: {
     paddingRight: spacings.ExtraLarge2x,
+  },
+  inputMultiline: {
+    minHeight: 120,
+    paddingTop: spacings.large,
   },
   inputError: {
     borderColor: redColor,

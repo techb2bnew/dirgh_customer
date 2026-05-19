@@ -8,7 +8,18 @@ import {
   View,
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { ROUTE_FINANCIAL_SUMMARY, ROUTE_NEW_ORDER, ROUTE_PROFILE } from '../navigation/AppNavigator';
+import {
+  ROUTE_CART,
+  ROUTE_CATEGORIES,
+  ROUTE_DOCUMENTS,
+  ROUTE_FINANCIAL_SUMMARY,
+  ROUTE_MAKE_PAYMENT,
+  ROUTE_NEW_ORDER,
+  ROUTE_ORDERS,
+  ROUTE_QUICK_REORDER,
+  ROUTE_PROFILE,
+  ROUTE_RAISE_ENQUIRY,
+} from '../navigation/AppNavigator';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ActionGridItem from '../components/ActionGridItem';
@@ -141,19 +152,26 @@ const HomeScreen = () => {
   };
 
   const handleRaiseEnquiry = () => {
-    // TODO: navigate to raise enquiry
+    // navigation.navigate(ROUTE_RAISE_ENQUIRY);
   };
 
   const handleMakePayment = () => {
-    // TODO: navigate to make payment
   };
 
   const handleDocuments = () => {
-    // TODO: navigate to documents
+    // navigation.navigate(ROUTE_DOCUMENTS);
   };
 
   const handleBrowseCatalog = () => {
-    // TODO: navigate to catalog
+    // navigation.navigate(ROUTE_CATEGORIES);
+  };
+
+  const handleOrders = () => {
+    navigation.navigate(ROUTE_ORDERS);
+  };
+
+  const handleQuickReorder = () => {
+    navigation.navigate(ROUTE_QUICK_REORDER);
   };
 
   const handleActionPress = actionId => {
@@ -261,7 +279,16 @@ const HomeScreen = () => {
             </Text>
           </View>
           <View style={[flexDirectionRow, alignItemsCenter]}>
-            <TouchableOpacity style={[styles.iconButton, alignJustifyCenter]} activeOpacity={0.7}>
+            <TouchableOpacity
+              style={[styles.iconButton, alignJustifyCenter]}
+              activeOpacity={0.7}
+            // onPress={() =>
+            //   navigation.navigate(ROUTE_CART, {
+            //     fromHome: true,
+            //     account,
+            //   })
+            // }
+            >
               <Icon name="shopping-outline" size={22} color={blackColor} />
               <View style={[styles.badge, alignJustifyCenter]}>
                 <Text style={styles.badgeText}>{CART_BADGE_COUNT}</Text>
@@ -269,7 +296,7 @@ const HomeScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.iconButton, styles.profileButton, alignJustifyCenter]}
-              onPress={() => navigation.navigate(ROUTE_PROFILE, { account })}
+              // onPress={() => navigation.navigate(ROUTE_PROFILE, { account })}
               activeOpacity={0.7}>
               <Icon name="account-circle-outline" size={26} color={blackColor} />
             </TouchableOpacity>
@@ -300,7 +327,10 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        <TouchableOpacity style={[flexDirectionRow, alignItemsCenter, styles.quickReorder]} activeOpacity={0.85}>
+        <TouchableOpacity
+          style={[flexDirectionRow, alignItemsCenter, styles.quickReorder]}
+          onPress={handleQuickReorder}
+          activeOpacity={0.85}>
           <Icon name="sync" size={22} color={whiteColor} />
           <Text style={styles.quickReorderText}>{QUICK_REORDER}</Text>
         </TouchableOpacity>
@@ -331,7 +361,7 @@ const HomeScreen = () => {
           <SummaryStatCard label={TICKETS} value={String(supportTicketsList.length)} />
         </View>
 
-        <ListSectionCard title={RECENT_ORDERS} onViewAll={() => { }}>
+        <ListSectionCard title={RECENT_ORDERS} onViewAll={handleOrders}>
           {recentOrdersList.map((order, index) => (
             <OrderListItem
               key={order.id}
@@ -344,7 +374,7 @@ const HomeScreen = () => {
           ))}
         </ListSectionCard>
 
-        <ListSectionCard title={RECENT_INVOICES} onViewAll={() => { }}>
+        <ListSectionCard title={RECENT_INVOICES}>
           {recentInvoicesList.map((invoice, index) => (
             <InvoiceListItem
               key={invoice.id}
@@ -357,7 +387,9 @@ const HomeScreen = () => {
           ))}
         </ListSectionCard>
 
-        <ListSectionCard title={SUPPORT_TICKETS} onViewAll={() => { }}>
+        <ListSectionCard title={SUPPORT_TICKETS} onViewAll={() => {
+          // navigation.navigate(ROUTE_RAISE_ENQUIRY)
+        }}>
           {supportTicketsList.map((ticket, index) => (
             <TicketListItem
               key={ticket.id}

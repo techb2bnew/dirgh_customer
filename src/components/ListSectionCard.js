@@ -13,9 +13,11 @@ const ListSectionCard = ({ title, children, onViewAll }) => {
     <View style={styles.card}>
       <View style={[flexDirectionRow, justifyContentSpaceBetween, alignItemsCenter, styles.header]}>
         <Text style={styles.title}>{title}</Text>
-        <TouchableOpacity onPress={onViewAll} activeOpacity={0.7}>
-          <Text style={styles.viewAll}>{VIEW_ALL}</Text>
-        </TouchableOpacity>
+        {onViewAll ? (
+          <TouchableOpacity onPress={onViewAll} activeOpacity={0.7}>
+            <Text style={styles.viewAll}>{VIEW_ALL}</Text>
+          </TouchableOpacity>
+        ) : null}
       </View>
       {children}
     </View>

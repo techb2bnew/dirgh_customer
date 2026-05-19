@@ -6,7 +6,14 @@ import LoginScreen from '../screens/LoginScreen';
 import FinancialSummaryScreen from '../screens/FinancialSummaryScreen';
 import MakePaymentScreen from '../screens/MakePaymentScreen';
 import NewOrderScreen from '../screens/NewOrderScreen';
+import ProductListingScreen from '../screens/ProductListingScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import CategoryScreen from '../screens/CategoryScreen';
+import CartScreen from '../screens/CartScreen';
+import DocumentsScreen from '../screens/DocumentsScreen';
+import OrdersScreen from '../screens/OrdersScreen';
+import QuickReordersScreen from '../screens/QuickReordersScreen';
+import RaiseEnquiryScreen from '../screens/RaiseEnquiryScreen';
 import SelectAccountScreen from '../screens/SelectAccountScreen';
 import ViewLedgerScreen from '../screens/ViewLedgerScreen';
 
@@ -19,6 +26,13 @@ export const ROUTE_FINANCIAL_SUMMARY = 'FinancialSummary';
 export const ROUTE_VIEW_LEDGER = 'ViewLedger';
 export const ROUTE_MAKE_PAYMENT = 'MakePayment';
 export const ROUTE_PROFILE = 'Profile';
+export const ROUTE_RAISE_ENQUIRY = 'RaiseEnquiry';
+export const ROUTE_DOCUMENTS = 'Documents';
+export const ROUTE_CATEGORIES = 'Categories';
+export const ROUTE_PRODUCT_LISTING = 'ProductListing';
+export const ROUTE_CART = 'Cart';
+export const ROUTE_ORDERS = 'Orders';
+export const ROUTE_QUICK_REORDER = 'QuickReorder';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +50,13 @@ const AppNavigator = () => {
       <Stack.Screen name={ROUTE_VIEW_LEDGER} component={ViewLedgerScreen} />
       <Stack.Screen name={ROUTE_MAKE_PAYMENT} component={MakePaymentScreen} />
       <Stack.Screen name={ROUTE_PROFILE} component={ProfileScreen} />
+      <Stack.Screen name={ROUTE_RAISE_ENQUIRY} component={RaiseEnquiryScreen} />
+      <Stack.Screen name={ROUTE_DOCUMENTS} component={DocumentsScreen} />
+      <Stack.Screen name={ROUTE_CATEGORIES} component={CategoryScreen} />
+      <Stack.Screen name={ROUTE_PRODUCT_LISTING} component={ProductListingScreen} />
+      <Stack.Screen name={ROUTE_CART} component={CartScreen} />
+      <Stack.Screen name={ROUTE_ORDERS} component={OrdersScreen} />
+      <Stack.Screen name={ROUTE_QUICK_REORDER} component={QuickReordersScreen} />
     </Stack.Navigator>
   );
 };

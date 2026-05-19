@@ -27,6 +27,23 @@ export const ACCOUNT_BALANCE = 'ACCOUNT BALANCE';
 export const CREDIT_LABEL = 'Credit:';
 export const OUTSTANDING_LABEL = 'Outstanding:';
 export const QUICK_REORDER = 'Quick Reorder';
+export const QUICK_REORDER_SUBTITLE = 'Your frequently purchased items';
+export const SEARCH_QUICK_REORDER_PLACEHOLDER = 'Search products...';
+export const CLEAR_ALL = 'Clear All';
+export const USUAL_LABEL = 'Usual';
+export const ORDER_TOTAL_LABEL = 'ORDER TOTAL';
+export const TOTAL_ITEMS_LABEL = 'TOTAL ITEMS';
+export const ORDERED_COUNT_SUFFIX = 'x';
+
+export const formatOrderedCount = (count: number) => `Ordered ${count}${ORDERED_COUNT_SUFFIX}`;
+
+export const formatUsualQty = (qty: number) => `(${qty})`;
+
+export const formatAddItemsToCart = (count: number) =>
+  `Add ${count} Item${count === 1 ? '' : 's'} to Cart`;
+
+export const formatQuickReorderMeta = (lastOrdered: string, orderCount: number) =>
+  `Last ordered ${lastOrdered} • ${formatOrderedCount(orderCount)}`;
 
 export const ORDERS = 'ORDERS';
 export const INVOICES = 'INVOICES';
@@ -167,3 +184,126 @@ export const ACCOUNT_MANAGER_LABEL = 'ACCOUNT MANAGER';
 export const REGISTERED_ADDRESS = 'Registered Address';
 export const BILLING_ADDRESS = 'Billing Address';
 export const SHIPPING_ADDRESS = 'Shipping Address';
+
+export const SUPPORT_TICKETS_TITLE = 'Support Tickets';
+export const TICKETS_COUNT_SUFFIX = 'tickets';
+export const FILTER_ALL = 'All';
+export const FILTER_OPEN = 'Open';
+export const FILTER_IN_PROGRESS = 'In Progress';
+export const FILTER_RESOLVED = 'Resolved';
+export const FILTER_CLOSED = 'Closed';
+export const RAISE_NEW_TICKET = 'Raise New Ticket';
+export const BACK_TO_SUPPORT = 'Back to Support';
+export const NEW_ENQUIRY_TITLE = 'New Enquiry';
+export const NEW_ENQUIRY_SUBTITLE = 'Submit a support request';
+export const CATEGORY_LABEL = 'Category';
+export const PRIORITY_LABEL = 'Priority';
+export const SUBJECT_LABEL = 'Subject';
+export const MESSAGE_LABEL = 'Message';
+export const ATTACHMENTS_LABEL = 'Attachments';
+export const SUBJECT_PLACEHOLDER = 'Brief description of your enquiry';
+export const MESSAGE_PLACEHOLDER = 'Provide detailed information about your enquiry...';
+export const ADD_ATTACHMENT = 'Add Attachment';
+export const ATTACHMENT_PICK_FAILED = 'Unable to pick file. Please try again.';
+export const SUBMIT_ENQUIRY = 'Submit Enquiry';
+export const LAST_UPDATE_LABEL = 'LAST UPDATE';
+export const ASSIGNED_TO_LABEL = 'ASSIGNED TO';
+export const PRIORITY_HIGH = 'High';
+export const PRIORITY_MEDIUM = 'Medium';
+export const PRIORITY_LOW = 'Low';
+export const CATEGORY_REQUIRED = 'Please select a category';
+export const SUBJECT_REQUIRED = 'Subject is required';
+export const MESSAGE_REQUIRED = 'Message is required';
+
+export const DOCUMENT_CENTER_TITLE = 'Document Center';
+export const DOCUMENTS_COUNT_SUFFIX = 'documents';
+export const SEARCH_DOCUMENTS_PLACEHOLDER = 'Search documents...';
+export const FILTER_INVOICE = 'Invoice';
+export const FILTER_STATEMENT = 'Statement';
+export const FILTER_DELIVERY_CHALLAN = 'Delivery Challan';
+export const FILTER_REPORT = 'Report';
+export const DOWNLOAD_ALL = 'Download All';
+
+export const formatDocumentsCount = (count: number) => `${count} ${DOCUMENTS_COUNT_SUFFIX}`;
+
+export const formatDownloadAll = (count: number) => `${DOWNLOAD_ALL} (${count})`;
+
+export const PRODUCT_CATEGORIES_TITLE = 'Product Categories';
+export const PRODUCT_CATEGORIES_SUBTITLE = 'Browse wholesale catalog by category';
+export const SEARCH_CATEGORIES_PLACEHOLDER = 'Search categories...';
+export const TOTAL_CATEGORIES_LABEL = 'TOTAL CATEGORIES';
+export const TOTAL_PRODUCTS_LABEL = 'TOTAL PRODUCTS';
+export const ITEMS_SUFFIX = 'items';
+
+export const formatCategoryItemCount = (count: number) =>
+  `${count.toLocaleString()} ${ITEMS_SUFFIX}`;
+
+export const BACK_TO_CATEGORIES = 'Back to Categories';
+export const SEARCH_BY_NAME_OR_SKU = 'Search by name or SKU...';
+export const PRODUCTS_COUNT_SUFFIX = 'products';
+export const LISTING_PRICE_LABEL = 'PRICE';
+export const LISTING_STOCK_LABEL = 'STOCK';
+export const LAST_ORDER_LABEL = 'LAST ORDER';
+export const REPEAT_BADGE = 'REPEAT';
+export const ADD_TO_CART = 'Add to Cart';
+export const ADD_MORE = 'Add More';
+export const CART_TOTAL_LABEL = 'CART TOTAL';
+export const ITEMS_LABEL = 'ITEMS';
+export const PACKS_SUFFIX = 'packs';
+
+export const formatProductsCount = (count: number) => `${count} ${PRODUCTS_COUNT_SUFFIX}`;
+
+export const formatPacksCount = (count: number) => `${count} ${PACKS_SUFFIX}`;
+
+export const formatReviewOrder = (count: number) =>
+  `Review Order (${count} ${count === 1 ? 'product' : 'products'})`;
+
+export const NO_PRODUCTS_FOUND = 'No products found';
+export const NO_PRODUCTS_SUBTITLE = 'Try a different search or check back later';
+export const LISTING_OUT_OF_STOCK = 'Out of stock';
+
+export const formatInCart = (count: number) => `In cart: ${count}`;
+
+export const formatOnlyAvailableToAdd = (remaining: number) =>
+  `Only ${remaining} available to add`;
+
+export const ORDER_CART_TITLE = 'Order Cart';
+export const CONTINUE_SHOPPING = 'Continue Shopping';
+export const CLEAR_CART = 'Clear Cart';
+export const PER_PACK = 'per pack';
+export const SUBTOTAL_LABEL = 'Subtotal';
+export const DELIVERY_LABEL = 'Delivery';
+export const FREE_LABEL = 'FREE';
+export const TAX_LABEL = 'TAX';
+export const TOTAL_LABEL = 'Total';
+export const PROCEED_TO_CHECKOUT = 'Proceed to Checkout';
+export const DELIVERY_METHOD = 'Delivery Method';
+export const STANDARD_DELIVERY = 'Standard Delivery';
+export const STANDARD_DELIVERY_DAYS = '3-5 business days';
+export const EXPRESS_DELIVERY = 'Express Delivery';
+export const EXPRESS_DELIVERY_DAYS = '1-2 business days';
+export const TOTAL_ITEMS_SUFFIX = 'total items';
+
+export const ORDERS_TITLE = 'Orders';
+export const ORDERS_COUNT_SUFFIX = 'orders';
+export const FILTER_PENDING = 'Pending';
+export const FILTER_PROCESSING = 'Processing';
+export const FILTER_DISPATCHED = 'Dispatched';
+export const FILTER_DELIVERED = 'Delivered';
+export const FILTER_CANCELLED = 'Cancelled';
+export const EXPECTED_LABEL = 'EXPECTED';
+export const DELIVERED_DATE_LABEL = 'DELIVERED';
+
+export const formatOrdersCount = (count: number) => `${count} ${ORDERS_COUNT_SUFFIX}`;
+
+export const formatCartSubtitle = (products: number, items: number) =>
+  `${products} products • ${items} ${TOTAL_ITEMS_SUFFIX}`;
+
+export const formatSubtotalItems = (count: number) => `${SUBTOTAL_LABEL} (${count} items)`;
+
+export const formatTaxPercent = (percent: number) => `${TAX_LABEL} (${percent}%)`;
+
+export const formatPerPack = (price: string) => `${price} ${PER_PACK}`;
+
+export const CART_EMPTY_TITLE = 'Your cart is empty';
+export const CART_EMPTY_SUBTITLE = 'Add products from the catalog to get started';

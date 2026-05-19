@@ -393,7 +393,8 @@ const styles = StyleSheet.create({
     paddingVertical: spacings.large,
   },
   backButton: {
-    marginBottom: spacings.xxLarge,
+    marginTop: Platform.OS === "android" ? spacings.large : spacings.small,
+    marginBottom: spacings.large,
   },
   backText: {
     ...style.fontSizeNormal2x,
