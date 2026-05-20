@@ -20,20 +20,27 @@ import {
   FILTER_PENDING,
   FILTER_PROCESSING,
   formatOrdersCount,
+  formatNoOrdersFilterTitle,
+  NO_ORDERS_FILTER_SUBTITLE,
+  NO_ORDERS_EMPTY_TITLE,
+  NO_ORDERS_EMPTY_SUBTITLE,
+  SHOW_ALL_ORDERS,
   ORDERS_TITLE,
 } from '../constants/Constants';
 import {
+  actionIconBgColor,
   backgroundBeigeColor,
   blackColor,
   inputBorderColor,
+  primaryColor,
   textSecondaryColor,
   whiteColor,
 } from '../constants/Color';
 import { BaseStyle } from '../constants/Style';
 import { style, spacings } from '../constants/Fonts';
-import { ROUTE_HOME } from '../navigation/AppNavigator';
+import { ROUTE_HOME, ROUTE_ORDER_DETAIL } from '../navigation/AppNavigator';
 
-const { flex, flexDirectionRow, alignItemsCenter } = BaseStyle;
+const { flex, flexDirectionRow, alignItemsCenter, alignJustifyCenter } = BaseStyle;
 
 const OrdersScreen = () => {
   const navigation = useNavigation();
@@ -57,9 +64,10 @@ const OrdersScreen = () => {
         id: '1',
         orderId: 'ORD-4721',
         date: '2026-04-14',
-        status: FILTER_PROCESSING,
-        filterStatus: 'processing',
+        status: FILTER_DISPATCHED,
+        filterStatus: 'dispatched',
         itemCount: 12,
+        expectedDate: '2026-04-18',
         amount: '$24,750',
       },
       {
@@ -148,6 +156,16 @@ const OrdersScreen = () => {
     return orderList.filter(order => order.filterStatus === activeFilter);
   }, [orderList, activeFilter]);
 
+  const isFilterActive = activeFilter !== 'all';
+  const activeFilterLabel =
+    filterList.find(filter => filter.id === activeFilter)?.label ?? '';
+  const emptyTitle = isFilterActive
+    ? formatNoOrdersFilterTitle(activeFilterLabel)
+    : NO_ORDERS_EMPTY_TITLE;
+  const emptySubtitle = isFilterActive
+    ? NO_ORDERS_FILTER_SUBTITLE
+    : NO_ORDERS_EMPTY_SUBTITLE;
+
   return (
     <SafeAreaView style={[flex, styles.safeArea]}>
       <ScrollView
@@ -185,18 +203,42 @@ const OrdersScreen = () => {
           })}
         </ScrollView>
 
-        {filteredOrders.map(order => (
-          <OrderCard
-            key={order.id}
-            orderId={order.orderId}
-            date={order.date}
-            status={order.status}
-            itemCount={order.itemCount}
-            amount={order.amount}
-            expectedDate={order.expectedDate}
-            deliveredDate={order.deliveredDate}
-          />
-        ))}
+        {filteredOrders.length > 0 ? (
+          filteredOrders.map(order => (
+            <OrderCard
+              key={order.id}
+              orderId={order.orderId}
+              date={order.date}
+              status={order.status}
+              itemCount={order.itemCount}
+              amount={order.amount}
+              expectedDate={order.expectedDate}
+              deliveredDate={order.deliveredDate}
+              onPress={() =>
+                navigation.navigate(ROUTE_ORDER_DETAIL, {
+                  orderId: order.orderId,
+                  filterStatus: order.filterStatus,
+                })
+              }
+            />
+          ))
+        ) : (
+          <View style={[alignJustifyCenter, styles.emptyPlaceholder]}>
+            <View style={styles.emptyIconWrap}>
+              <Icon name="clipboard-list-outline" size={48} color={textSecondaryColor} />
+            </View>
+            <Text style={styles.emptyTitle}>{emptyTitle}</Text>
+            <Text style={styles.emptySubtitle}>{emptySubtitle}</Text>
+            {isFilterActive ? (
+              <TouchableOpacity
+                style={styles.emptyButton}
+                onPress={() => setActiveFilter('all')}
+                activeOpacity={0.85}>
+                <Text style={styles.emptyButtonText}>{SHOW_ALL_ORDERS}</Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -263,5 +305,43 @@ const styles = StyleSheet.create({
   filterTextActive: {
     ...style.fontWeightMedium,
     color: blackColor,
+  },
+  emptyPlaceholder: {
+    paddingVertical: spacings.ExtraLarge3x,
+    paddingHorizontal: spacings.xxLarge,
+    minHeight: 280,
+  },
+  emptyIconWrap: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: actionIconBgColor,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacings.xLarge,
+  },
+  emptyTitle: {
+    ...style.fontSizeNormal2x,
+    ...style.fontWeightMedium,
+    color: blackColor,
+    marginBottom: spacings.small,
+    textAlign: 'center',
+  },
+  emptySubtitle: {
+    ...style.fontSizeNormal,
+    color: textSecondaryColor,
+    textAlign: 'center',
+    marginBottom: spacings.xxLarge,
+  },
+  emptyButton: {
+    backgroundColor: primaryColor,
+    paddingHorizontal: spacings.xxLarge,
+    paddingVertical: spacings.normal,
+    borderRadius: 10,
+  },
+  emptyButtonText: {
+    ...style.fontSizeNormal2x,
+    ...style.fontWeightMedium,
+    color: whiteColor,
   },
 });

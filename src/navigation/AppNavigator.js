@@ -11,8 +11,12 @@ import ProfileScreen from '../screens/ProfileScreen';
 import CategoryScreen from '../screens/CategoryScreen';
 import CartScreen from '../screens/CartScreen';
 import DocumentsScreen from '../screens/DocumentsScreen';
+import DeliveryDetailsScreen from '../screens/DeliveryDetailsScreen';
+import OrderDetailScreen from '../screens/OrderDetailScreen';
 import OrdersScreen from '../screens/OrdersScreen';
 import QuickReordersScreen from '../screens/QuickReordersScreen';
+import OrderConfirmationScreen from '../screens/OrderConfirmationScreen';
+import ReviewOrderScreen from '../screens/ReviewOrderScreen';
 import RaiseEnquiryScreen from '../screens/RaiseEnquiryScreen';
 import SelectAccountScreen from '../screens/SelectAccountScreen';
 import ViewLedgerScreen from '../screens/ViewLedgerScreen';
@@ -32,7 +36,11 @@ export const ROUTE_CATEGORIES = 'Categories';
 export const ROUTE_PRODUCT_LISTING = 'ProductListing';
 export const ROUTE_CART = 'Cart';
 export const ROUTE_ORDERS = 'Orders';
+export const ROUTE_ORDER_DETAIL = 'OrderDetail';
 export const ROUTE_QUICK_REORDER = 'QuickReorder';
+export const ROUTE_DELIVERY_DETAILS = 'DeliveryDetails';
+export const ROUTE_REVIEW_ORDER = 'ReviewOrder';
+export const ROUTE_ORDER_CONFIRMATION = 'OrderConfirmation';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,7 +64,11 @@ const AppNavigator = () => {
       <Stack.Screen name={ROUTE_PRODUCT_LISTING} component={ProductListingScreen} />
       <Stack.Screen name={ROUTE_CART} component={CartScreen} />
       <Stack.Screen name={ROUTE_ORDERS} component={OrdersScreen} />
+      <Stack.Screen name={ROUTE_ORDER_DETAIL} component={OrderDetailScreen} />
       <Stack.Screen name={ROUTE_QUICK_REORDER} component={QuickReordersScreen} />
+      <Stack.Screen name={ROUTE_DELIVERY_DETAILS} component={DeliveryDetailsScreen} />
+      <Stack.Screen name={ROUTE_REVIEW_ORDER} component={ReviewOrderScreen} />
+      <Stack.Screen name={ROUTE_ORDER_CONFIRMATION} component={OrderConfirmationScreen} />
     </Stack.Navigator>
   );
 };

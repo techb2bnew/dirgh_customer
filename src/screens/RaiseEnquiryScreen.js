@@ -44,8 +44,11 @@ import {
   SUBMIT_ENQUIRY,
   SUPPORT_TICKETS_TITLE,
   TICKETS_COUNT_SUFFIX,
+  NO_TICKETS_TITLE,
+  NO_TICKETS_SUBTITLE,
 } from '../constants/Constants';
 import {
+  actionIconBgColor,
   addOrderBorderColor,
   backgroundBeigeColor,
   balanceBadgeTextColor,
@@ -59,7 +62,7 @@ import {
 import { BaseStyle } from '../constants/Style';
 import { style, spacings } from '../constants/Fonts';
 
-const { flex, flexDirectionRow, flexWrap, alignItemsCenter } = BaseStyle;
+const { flex, flexDirectionRow, flexWrap, alignItemsCenter, alignJustifyCenter } = BaseStyle;
 
 const VIEW_LIST = 'list';
 const VIEW_FORM = 'form';
@@ -319,18 +322,35 @@ const RaiseEnquiryScreen = () => {
     <>
       <Text style={styles.countText}>{ticketsCountLabel}</Text>
       {renderFilterTabs()}
-      {filteredTickets.map(ticket => (
-        <SupportTicketCard
-          key={ticket.id}
-          ticketId={ticket.ticketId}
-          subject={ticket.subject}
-          status={ticket.status}
-          category={ticket.category}
-          priority={ticket.priority}
-          lastUpdate={ticket.lastUpdate}
-          assignedTo={ticket.assignedTo}
-        />
-      ))}
+      {filteredTickets.length > 0 ? (
+        filteredTickets.map(ticket => (
+          <SupportTicketCard
+            key={ticket.id}
+            ticketId={ticket.ticketId}
+            subject={ticket.subject}
+            status={ticket.status}
+            category={ticket.category}
+            priority={ticket.priority}
+            lastUpdate={ticket.lastUpdate}
+            assignedTo={ticket.assignedTo}
+          />
+        ))
+      ) : (
+        <View style={[alignJustifyCenter, styles.emptyPlaceholder]}>
+          <View style={styles.emptyIconWrap}>
+            <Icon name="ticket-outline" size={48} color={textSecondaryColor} />
+          </View>
+          <Text style={styles.emptyTitle}>{NO_TICKETS_TITLE}</Text>
+          <Text style={styles.emptySubtitle}>{NO_TICKETS_SUBTITLE}</Text>
+          <TouchableOpacity
+            style={styles.emptyButton}
+            // onPress={openNewEnquiry}
+            activeOpacity={0.85}>
+            <Icon name="plus" size={20} color={whiteColor} />
+            <Text style={styles.emptyButtonText}>{RAISE_NEW_TICKET}</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </>
   );
 
@@ -475,7 +495,7 @@ const RaiseEnquiryScreen = () => {
           {viewMode === VIEW_LIST ? renderListView() : renderFormView()}
         </ScrollView>
 
-        <View style={styles.footer}>
+        {/* <View style={styles.footer}>
           {viewMode === VIEW_LIST ? (
             <TouchableOpacity
               style={[flexDirectionRow, alignItemsCenter, styles.raiseButton]}
@@ -487,7 +507,7 @@ const RaiseEnquiryScreen = () => {
           ) : (
             <CustomButton title={SUBMIT_ENQUIRY} onPress={handleSubmit} loading={isSubmitting} />
           )}
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );
@@ -558,6 +578,47 @@ const styles = StyleSheet.create({
   filterTextActive: {
     ...style.fontWeightMedium,
     color: blackColor,
+  },
+  emptyPlaceholder: {
+    paddingVertical: spacings.ExtraLarge3x,
+    paddingHorizontal: spacings.xxLarge,
+    minHeight: 280,
+  },
+  emptyIconWrap: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: actionIconBgColor,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacings.xLarge,
+  },
+  emptyTitle: {
+    ...style.fontSizeNormal2x,
+    ...style.fontWeightMedium,
+    color: blackColor,
+    marginBottom: spacings.small,
+    textAlign: 'center',
+  },
+  emptySubtitle: {
+    ...style.fontSizeNormal,
+    color: textSecondaryColor,
+    textAlign: 'center',
+    marginBottom: spacings.xxLarge,
+  },
+  emptyButton: {
+    ...flexDirectionRow,
+    alignItemsCenter,
+    backgroundColor: primaryColor,
+    paddingHorizontal: spacings.xxLarge,
+    paddingVertical: spacings.normal,
+    borderRadius: 10,
+  },
+  emptyButtonText: {
+    ...style.fontSizeNormal2x,
+    ...style.fontWeightMedium,
+    color: whiteColor,
+    marginLeft: spacings.normal,
   },
   formSectionLabel: {
     ...style.fontSizeNormal2x,

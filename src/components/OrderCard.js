@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   DELIVERED_DATE_LABEL,
   EXPECTED_LABEL,
@@ -42,13 +42,14 @@ const OrderCard = ({
   amount,
   expectedDate,
   deliveredDate,
+  onPress,
 }) => {
   const statusStyle = STATUS_STYLES[status] ?? STATUS_STYLES.Processing;
   const showExpected = Boolean(expectedDate);
   const showDelivered = Boolean(deliveredDate);
 
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.7}>
       <View style={[flexDirectionRow, justifyContentSpaceBetween, alignItemsCenter]}>
         <View>
           <Text style={styles.orderId}>{orderId}</Text>
@@ -89,7 +90,7 @@ const OrderCard = ({
 
         <Text style={styles.amount}>{amount}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

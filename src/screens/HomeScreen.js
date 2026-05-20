@@ -152,10 +152,11 @@ const HomeScreen = () => {
   };
 
   const handleRaiseEnquiry = () => {
-    // navigation.navigate(ROUTE_RAISE_ENQUIRY);
+    navigation.navigate(ROUTE_RAISE_ENQUIRY);
   };
 
   const handleMakePayment = () => {
+    navigation.navigate(ROUTE_MAKE_PAYMENT);
   };
 
   const handleDocuments = () => {
@@ -167,7 +168,7 @@ const HomeScreen = () => {
   };
 
   const handleOrders = () => {
-    navigation.navigate(ROUTE_ORDERS);
+    // navigation.navigate(ROUTE_ORDERS);
   };
 
   const handleQuickReorder = () => {

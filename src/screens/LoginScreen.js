@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
+import ContactSalesModal from '../components/Modal/ContactSalesModal';
 import {
   CONTACT_SALES,
   EMAIL_INVALID,
@@ -95,6 +96,7 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState({ email: '', password: '', rememberMe: '' });
+  const [showContactSalesModal, setShowContactSalesModal] = useState(false);
 
   const handleEmailChange = value => {
     setEmail(value);
@@ -140,6 +142,7 @@ const LoginScreen = () => {
   };
 
   return (
+    <>
     <SafeAreaView style={[flex, styles.safeArea]}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
@@ -236,10 +239,20 @@ const LoginScreen = () => {
 
         <Text style={[styles.footerText, textAlign]}>
           {NO_ACCOUNT}{' '}
-          <Text style={styles.footerLink}>{CONTACT_SALES}</Text>
+          <Text
+            style={styles.footerLink}
+            onPress={() => setShowContactSalesModal(true)}>
+            {CONTACT_SALES}
+          </Text>
         </Text>
       </ScrollView>
     </SafeAreaView>
+
+    <ContactSalesModal
+      visible={showContactSalesModal}
+      onClose={() => setShowContactSalesModal(false)}
+    />
+    </>
   );
 };
 

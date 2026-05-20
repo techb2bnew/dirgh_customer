@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   FlatList,
   Platform,
@@ -18,21 +18,28 @@ import {
   PRODUCT_CATEGORIES_SUBTITLE,
   PRODUCT_CATEGORIES_TITLE,
   SEARCH_CATEGORIES_PLACEHOLDER,
+  NO_CATEGORIES_SEARCH_TITLE,
+  NO_CATEGORIES_SEARCH_SUBTITLE,
+  NO_CATEGORIES_EMPTY_TITLE,
+  NO_CATEGORIES_EMPTY_SUBTITLE,
+  CLEAR_SEARCH,
   TOTAL_CATEGORIES_LABEL,
   TOTAL_PRODUCTS_LABEL,
 } from '../constants/Constants';
 import {
+  actionIconBgColor,
   backgroundBeigeColor,
   blackColor,
   inputBorderColor,
   placeholderColor,
+  primaryColor,
   textSecondaryColor,
   whiteColor,
 } from '../constants/Color';
 import { BaseStyle } from '../constants/Style';
 import { style, spacings } from '../constants/Fonts';
 
-const { flex, flexDirectionRow, alignItemsCenter } = BaseStyle;
+const { flex, flexDirectionRow, alignItemsCenter, alignJustifyCenter } = BaseStyle;
 
 const CategoryScreen = () => {
   const navigation = useNavigation();
@@ -70,59 +77,106 @@ const CategoryScreen = () => {
     [categoryList],
   );
 
-  const handleCategoryPress = category => {
-    navigation.navigate(ROUTE_PRODUCT_LISTING, { category });
-  };
+  const handleCategoryPress = useCallback(
+    category => {
+      navigation.navigate(ROUTE_PRODUCT_LISTING, { category });
+    },
+    [navigation],
+  );
 
-  const renderHeader = () => (
-    <View>
-      <TouchableOpacity
-        style={[flexDirectionRow, alignItemsCenter, styles.backButton]}
-        onPress={() => navigation.navigate(ROUTE_HOME)}
-        activeOpacity={0.7}>
-        <Icon name="chevron-left" size={24} color={textSecondaryColor} />
-        <Text style={styles.backText}>{BACK_TO_DASHBOARD}</Text>
-      </TouchableOpacity>
+  const isSearchActive = searchQuery.trim().length > 0;
+  const emptyTitle = isSearchActive
+    ? NO_CATEGORIES_SEARCH_TITLE
+    : NO_CATEGORIES_EMPTY_TITLE;
+  const emptySubtitle = isSearchActive
+    ? NO_CATEGORIES_SEARCH_SUBTITLE
+    : NO_CATEGORIES_EMPTY_SUBTITLE;
 
-      <Text style={styles.title}>{PRODUCT_CATEGORIES_TITLE}</Text>
-      <Text style={styles.subtitle}>{PRODUCT_CATEGORIES_SUBTITLE}</Text>
+  const listEmptyComponent = useMemo(
+    () => (
+      <View style={[alignJustifyCenter, styles.emptyPlaceholder]}>
+        <View style={styles.emptyIconWrap}>
+          <Icon name="view-grid-outline" size={48} color={textSecondaryColor} />
+        </View>
+        <Text style={styles.emptyTitle}>{emptyTitle}</Text>
+        <Text style={styles.emptySubtitle}>{emptySubtitle}</Text>
+        {isSearchActive ? (
+          <TouchableOpacity
+            style={styles.emptyButton}
+            onPress={() => setSearchQuery('')}
+            activeOpacity={0.85}>
+            <Text style={styles.emptyButtonText}>{CLEAR_SEARCH}</Text>
+          </TouchableOpacity>
+        ) : null}
+      </View>
+    ),
+    [emptyTitle, emptySubtitle, isSearchActive],
+  );
 
-      <View style={[flexDirectionRow, alignItemsCenter, styles.searchWrap]}>
-        <Icon name="magnify" size={22} color={textSecondaryColor} />
-        <TextInput
-          style={styles.searchInput}
-          placeholder={SEARCH_CATEGORIES_PLACEHOLDER}
-          placeholderTextColor={placeholderColor}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
+  const keyExtractor = useCallback(item => item.id, []);
+
+  const renderCategoryItem = useCallback(
+    ({ item }) => (
+      <View style={styles.cardWrap}>
+        <CategoryCard
+          name={item.name}
+          itemCount={item.itemCount}
+          icon={item.icon}
+          onPress={() => handleCategoryPress(item)}
         />
       </View>
-    </View>
+    ),
+    [handleCategoryPress],
+  );
+
+  const listContentStyle = useMemo(
+    () => [
+      styles.listContent,
+      filteredCategories.length === 0 && styles.listContentEmpty,
+    ],
+    [filteredCategories.length],
   );
 
   return (
     <SafeAreaView style={[flex, styles.safeArea]}>
       <View style={flex}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={[flexDirectionRow, alignItemsCenter, styles.backButton]}
+            onPress={() => navigation.navigate(ROUTE_HOME)}
+            activeOpacity={0.7}>
+            <Icon name="chevron-left" size={24} color={textSecondaryColor} />
+            <Text style={styles.backText}>{BACK_TO_DASHBOARD}</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.title}>{PRODUCT_CATEGORIES_TITLE}</Text>
+          <Text style={styles.subtitle}>{PRODUCT_CATEGORIES_SUBTITLE}</Text>
+
+          <View style={[flexDirectionRow, alignItemsCenter, styles.searchWrap]}>
+            <Icon name="magnify" size={22} color={textSecondaryColor} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder={SEARCH_CATEGORIES_PLACEHOLDER}
+              placeholderTextColor={placeholderColor}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              blurOnSubmit={false}
+            />
+          </View>
+        </View>
+
         <FlatList
           style={flex}
           data={filteredCategories}
-          keyExtractor={item => item.id}
+          keyExtractor={keyExtractor}
           numColumns={2}
           columnWrapperStyle={styles.columnWrapper}
-          contentContainerStyle={styles.listContent}
+          contentContainerStyle={listContentStyle}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
-          ListHeaderComponent={renderHeader}
-          renderItem={({ item }) => (
-            <View style={styles.cardWrap}>
-              <CategoryCard
-                name={item.name}
-                itemCount={item.itemCount}
-                icon={item.icon}
-                onPress={() => handleCategoryPress(item)}
-              />
-            </View>
-          )}
+          keyboardDismissMode="none"
+          ListEmptyComponent={listEmptyComponent}
+          renderItem={renderCategoryItem}
         />
 
         <View style={[flexDirectionRow, styles.fixedFooter]}>
@@ -149,10 +203,54 @@ const styles = StyleSheet.create({
     backgroundColor: backgroundBeigeColor,
     flex: 1,
   },
-  listContent: {
+  header: {
     paddingHorizontal: spacings.xxxxLarge,
     paddingTop: spacings.large,
+  },
+  listContent: {
+    paddingHorizontal: spacings.xxxxLarge,
     paddingBottom: spacings.normal,
+  },
+  listContentEmpty: {
+    flexGrow: 1,
+  },
+  emptyPlaceholder: {
+    paddingVertical: spacings.ExtraLarge3x,
+    paddingHorizontal: spacings.xxLarge,
+    minHeight: 280,
+  },
+  emptyIconWrap: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: actionIconBgColor,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacings.xLarge,
+  },
+  emptyTitle: {
+    ...style.fontSizeNormal2x,
+    ...style.fontWeightMedium,
+    color: blackColor,
+    marginBottom: spacings.small,
+    textAlign: 'center',
+  },
+  emptySubtitle: {
+    ...style.fontSizeNormal,
+    color: textSecondaryColor,
+    textAlign: 'center',
+    marginBottom: spacings.xxLarge,
+  },
+  emptyButton: {
+    backgroundColor: primaryColor,
+    paddingHorizontal: spacings.xxLarge,
+    paddingVertical: spacings.normal,
+    borderRadius: 10,
+  },
+  emptyButtonText: {
+    ...style.fontSizeNormal2x,
+    ...style.fontWeightMedium,
+    color: whiteColor,
   },
   fixedFooter: {
     paddingHorizontal: spacings.xxxxLarge,

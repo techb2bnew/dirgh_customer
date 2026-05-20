@@ -23,8 +23,14 @@ import {
   QUICK_REORDER_SUBTITLE,
   SEARCH_QUICK_REORDER_PLACEHOLDER,
   TOTAL_ITEMS_LABEL,
+  NO_QUICK_REORDER_SEARCH_TITLE,
+  NO_QUICK_REORDER_SEARCH_SUBTITLE,
+  NO_QUICK_REORDER_EMPTY_TITLE,
+  NO_QUICK_REORDER_EMPTY_SUBTITLE,
+  CLEAR_SEARCH,
 } from '../constants/Constants';
 import {
+  actionIconBgColor,
   backgroundBeigeColor,
   blackColor,
   inputBorderColor,
@@ -40,6 +46,7 @@ const {
   flex,
   flexDirectionRow,
   alignItemsCenter,
+  alignJustifyCenter,
   justifyContentSpaceBetween,
 } = BaseStyle;
 
@@ -139,6 +146,13 @@ const QuickReordersScreen = () => {
   );
 
   const hasSelectedItems = totalItems > 0;
+  const isSearchActive = searchQuery.trim().length > 0;
+  const emptyTitle = isSearchActive
+    ? NO_QUICK_REORDER_SEARCH_TITLE
+    : NO_QUICK_REORDER_EMPTY_TITLE;
+  const emptySubtitle = isSearchActive
+    ? NO_QUICK_REORDER_SEARCH_SUBTITLE
+    : NO_QUICK_REORDER_EMPTY_SUBTITLE;
 
   const updateProduct = (productId, updater) => {
     setProductList(prev =>
@@ -228,22 +242,40 @@ const QuickReordersScreen = () => {
             </TouchableOpacity>
           ) : null} */}
 
-          {filteredProducts.map(product => (
-            <QuickReorderProductCard
-              key={product.id}
-              name={product.name}
-              sku={product.sku}
-              packaging={product.packaging}
-              lastOrdered={product.lastOrdered}
-              orderCount={product.orderCount}
-              price={product.price}
-              usualQty={product.usualQty}
-              currentQty={product.currentQty}
-              onIncrement={() => handleIncrement(product.id)}
-              onDecrement={() => handleDecrement(product.id)}
-              onUsual={() => handleUsual(product.id)}
-            />
-          ))}
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map(product => (
+              <QuickReorderProductCard
+                key={product.id}
+                name={product.name}
+                sku={product.sku}
+                packaging={product.packaging}
+                lastOrdered={product.lastOrdered}
+                orderCount={product.orderCount}
+                price={product.price}
+                usualQty={product.usualQty}
+                currentQty={product.currentQty}
+                onIncrement={() => handleIncrement(product.id)}
+                onDecrement={() => handleDecrement(product.id)}
+                onUsual={() => handleUsual(product.id)}
+              />
+            ))
+          ) : (
+            <View style={[alignJustifyCenter, styles.emptyPlaceholder]}>
+              <View style={styles.emptyIconWrap}>
+                <Icon name="package-variant-closed" size={48} color={textSecondaryColor} />
+              </View>
+              <Text style={styles.emptyTitle}>{emptyTitle}</Text>
+              <Text style={styles.emptySubtitle}>{emptySubtitle}</Text>
+              {isSearchActive ? (
+                <TouchableOpacity
+                  style={styles.emptyButton}
+                  onPress={() => setSearchQuery('')}
+                  activeOpacity={0.85}>
+                  <Text style={styles.emptyButtonText}>{CLEAR_SEARCH}</Text>
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          )}
         </ScrollView>
 
         {hasSelectedItems ? (
@@ -328,6 +360,44 @@ const styles = StyleSheet.create({
     ...style.fontSizeNormal2x,
     ...style.fontWeightMedium,
     color: primaryColor,
+  },
+  emptyPlaceholder: {
+    paddingVertical: spacings.ExtraLarge3x,
+    paddingHorizontal: spacings.xxLarge,
+    minHeight: 280,
+  },
+  emptyIconWrap: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: actionIconBgColor,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacings.xLarge,
+  },
+  emptyTitle: {
+    ...style.fontSizeNormal2x,
+    ...style.fontWeightMedium,
+    color: blackColor,
+    marginBottom: spacings.small,
+    textAlign: 'center',
+  },
+  emptySubtitle: {
+    ...style.fontSizeNormal,
+    color: textSecondaryColor,
+    textAlign: 'center',
+    marginBottom: spacings.xxLarge,
+  },
+  emptyButton: {
+    backgroundColor: primaryColor,
+    paddingHorizontal: spacings.xxLarge,
+    paddingVertical: spacings.normal,
+    borderRadius: 10,
+  },
+  emptyButtonText: {
+    ...style.fontSizeNormal2x,
+    ...style.fontWeightMedium,
+    color: whiteColor,
   },
   footer: {
     paddingHorizontal: spacings.xxxxLarge,

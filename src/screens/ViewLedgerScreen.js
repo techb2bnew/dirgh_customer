@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Platform,
   ScrollView,
@@ -50,86 +50,117 @@ const FILTER_60 = '60';
 const FILTER_90 = '90';
 const FILTER_YEAR_ID = 'year';
 
+const parseLedgerDate = value => {
+  if (!value) {
+    return null;
+  }
+  const parts = value.split('/');
+  if (parts.length !== 3) {
+    return null;
+  }
+  const month = Number(parts[0]);
+  const day = Number(parts[1]);
+  const year = Number(parts[2]);
+  if (!month || !day || !year) {
+    return null;
+  }
+  return new Date(year, month - 1, day, 12, 0, 0);
+};
+
+/** Days from createdDate to today (0 = today) */
+const getDaysSinceCreated = createdDate => {
+  const start = parseLedgerDate(createdDate);
+  if (!start) {
+    return null;
+  }
+  const end = new Date();
+  start.setHours(0, 0, 0, 0);
+  end.setHours(0, 0, 0, 0);
+  return Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+};
+
 const ViewLedgerScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const account = route.params?.account;
 
   const [activeFilter, setActiveFilter] = useState(FILTER_30);
-  const [transactionList, setTransactionList] = useState([]);
+  // TODO: replace with API response
+  const [transactionList] = useState([
+    {
+      id: '1',
+      title: 'Payment Received - Wire Transfer',
+      date: '5/14/2026',
+      createdDate: '5/14/2026',
+      reference: 'PAY-8847',
+      type: 'credit',
+      amount: '+$28,100',
+      runningBalance: '$127,450',
+    },
+    {
+      id: '2',
+      title: 'Invoice Issued',
+      date: '5/6/2026',
+      createdDate: '5/6/2026',
+      reference: 'INV-2821',
+      type: 'debit',
+      amount: '-$24,750',
+      runningBalance: '$99,350',
+    },
+    {
+      id: '3',
+      title: 'Payment Received - ACH',
+      date: '4/28/2026',
+      createdDate: '4/28/2026',
+      reference: 'PAY-8830',
+      type: 'credit',
+      amount: '+$32,450',
+      runningBalance: '$124,100',
+    },
+    {
+      id: '4',
+      title: 'Invoice Issued',
+      date: '4/5/2026',
+      createdDate: '4/5/2026',
+      reference: 'INV-2805',
+      type: 'debit',
+      amount: '-$18,200',
+      runningBalance: '$91,650',
+    },
+    {
+      id: '5',
+      title: 'Invoice Issued',
+      date: '3/9/2026',
+      createdDate: '3/9/2026',
+      reference: 'INV-2791',
+      type: 'debit',
+      amount: '-$31,200',
+      runningBalance: '$109,850',
+    },
+  ]);
 
   const debitsTotal = account?.ledgerDebits ?? '$122,435';
   const creditsTotal = account?.ledgerCredits ?? '$151,580';
   const balanceTotal = account?.balanceAmount ?? '$127,450';
 
-  useEffect(() => {
-    // TODO: replace with API response filtered by activeFilter
-    setTransactionList([
-      {
-        id: '1',
-        title: 'Payment Received - Wire Transfer',
-        date: '2026-04-16',
-        reference: 'PAY-8847',
-        type: 'credit',
-        amount: '+$28,100',
-        runningBalance: '$127,450',
-        filter: FILTER_30,
-      },
-      {
-        id: '2',
-        title: 'Invoice Issued',
-        date: '2026-04-14',
-        reference: 'INV-2821',
-        type: 'debit',
-        amount: '-$24,750',
-        runningBalance: '$99,350',
-        filter: FILTER_30,
-      },
-      {
-        id: '3',
-        title: 'Payment Received - ACH',
-        date: '2026-04-10',
-        reference: 'PAY-8830',
-        type: 'credit',
-        amount: '+$32,450',
-        runningBalance: '$124,100',
-        filter: FILTER_30,
-      },
-      {
-        id: '4',
-        title: 'Invoice Issued',
-        date: '2026-04-02',
-        reference: 'INV-2805',
-        type: 'debit',
-        amount: '-$18,200',
-        runningBalance: '$91,650',
-        filter: FILTER_60,
-      },
-      {
-        id: '5',
-        title: 'Invoice Issued',
-        date: '2026-03-28',
-        reference: 'INV-2791',
-        type: 'debit',
-        amount: '-$31,200',
-        runningBalance: '$109,850',
-        filter: FILTER_90,
-      },
-    ]);
-  }, [activeFilter]);
-
   const filteredTransactions = useMemo(() => {
     if (activeFilter === FILTER_YEAR_ID) {
-      return transactionList;
+      const currentYear = new Date().getFullYear();
+      return transactionList.filter(item => {
+        const parsed = parseLedgerDate(item.createdDate);
+        return parsed?.getFullYear() === currentYear;
+      });
     }
+
+    const maxDays =
+      activeFilter === FILTER_30 ? 30 : activeFilter === FILTER_60 ? 60 : 90;
+
     return transactionList.filter(item => {
-      if (activeFilter === FILTER_60) {
-        return [FILTER_30, FILTER_60].includes(item.filter);
+      const daysAgo = getDaysSinceCreated(item.createdDate);
+      if (daysAgo === null) {
+        return false;
       }
-      if (activeFilter === FILTER_90) {
-        return [FILTER_30, FILTER_60, FILTER_90].includes(item.filter);
-      }
-      return item.filter === FILTER_30;
+      return daysAgo >= 0 && daysAgo <= maxDays;
     });
   }, [transactionList, activeFilter]);
 

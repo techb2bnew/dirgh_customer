@@ -31,7 +31,11 @@ import {
   STANDARD_DELIVERY_DAYS,
   TOTAL_LABEL,
 } from '../constants/Constants';
-import { ROUTE_HOME, ROUTE_PRODUCT_LISTING } from '../navigation/AppNavigator';
+import {
+  ROUTE_DELIVERY_DETAILS,
+  ROUTE_HOME,
+  ROUTE_PRODUCT_LISTING,
+} from '../navigation/AppNavigator';
 import {
   actionIconBgColor,
   backgroundBeigeColor,
@@ -172,7 +176,20 @@ const CartScreen = () => {
   };
 
   const handleProceedToCheckout = () => {
-    // TODO: navigate to checkout
+    navigation.navigate(ROUTE_DELIVERY_DETAILS, {
+      cartItems: cartList.map(item => ({
+        id: item.id,
+        name: item.name,
+        sku: item.sku,
+        packaging: item.packaging,
+        price: item.price,
+        stock: item.stock,
+        quantity: item.quantity,
+      })),
+      fromHome: route.params?.fromHome,
+      account: route.params?.account,
+      category,
+    });
   };
 
   return (

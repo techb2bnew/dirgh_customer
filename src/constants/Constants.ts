@@ -10,6 +10,12 @@ export const SIGN_IN = 'Sign In';
 export const OR_CONTINUE_WITH = 'OR CONTINUE WITH';
 export const NO_ACCOUNT = "Don't have an account?";
 export const CONTACT_SALES = 'Contact Sales';
+export const CONTACT_SALES_SUBTITLE = 'Reach out to our sales team';
+export const SALES_EMAIL_LABEL = 'EMAIL';
+export const SALES_PHONE_LABEL = 'PHONE';
+export const SALES_EMAIL = 'sales@dirgh.com';
+export const SALES_PHONE = '+1 (800) 555-0199';
+export const CLOSE = 'Close';
 
 export const EMAIL_REQUIRED = 'Email is required';
 export const EMAIL_INVALID = 'Please enter a valid email address';
@@ -29,6 +35,13 @@ export const OUTSTANDING_LABEL = 'Outstanding:';
 export const QUICK_REORDER = 'Quick Reorder';
 export const QUICK_REORDER_SUBTITLE = 'Your frequently purchased items';
 export const SEARCH_QUICK_REORDER_PLACEHOLDER = 'Search products...';
+export const NO_QUICK_REORDER_SEARCH_TITLE = 'No matching products';
+export const NO_QUICK_REORDER_SEARCH_SUBTITLE =
+  'Try a different product name or SKU, or clear your search to see all items.';
+export const NO_QUICK_REORDER_EMPTY_TITLE = 'No items to reorder yet';
+export const NO_QUICK_REORDER_EMPTY_SUBTITLE =
+  'Products you order frequently will show up here. Check back after your next purchase.';
+export const CLEAR_SEARCH = 'Clear search';
 export const CLEAR_ALL = 'Clear All';
 export const USUAL_LABEL = 'Usual';
 export const ORDER_TOTAL_LABEL = 'ORDER TOTAL';
@@ -187,6 +200,8 @@ export const SHIPPING_ADDRESS = 'Shipping Address';
 
 export const SUPPORT_TICKETS_TITLE = 'Support Tickets';
 export const TICKETS_COUNT_SUFFIX = 'tickets';
+export const NO_TICKETS_TITLE = 'No tickets found';
+export const NO_TICKETS_SUBTITLE = 'Try another filter or raise a new enquiry';
 export const FILTER_ALL = 'All';
 export const FILTER_OPEN = 'Open';
 export const FILTER_IN_PROGRESS = 'In Progress';
@@ -227,10 +242,27 @@ export const DOWNLOAD_ALL = 'Download All';
 export const formatDocumentsCount = (count: number) => `${count} ${DOCUMENTS_COUNT_SUFFIX}`;
 
 export const formatDownloadAll = (count: number) => `${DOWNLOAD_ALL} (${count})`;
+export const NO_DOCUMENTS_SEARCH_TITLE = 'No matching documents';
+export const NO_DOCUMENTS_SEARCH_SUBTITLE =
+  'Try a different title, type, or reference number, or clear your search to see all documents.';
+export const formatNoDocumentsFilterTitle = (filterLabel: string) =>
+  `No ${filterLabel.toLowerCase()} documents`;
+export const NO_DOCUMENTS_FILTER_SUBTITLE =
+  'There are no documents in this category. View all documents or try another filter.';
+export const NO_DOCUMENTS_EMPTY_TITLE = 'No documents yet';
+export const NO_DOCUMENTS_EMPTY_SUBTITLE =
+  'Invoices, statements, and delivery challans will appear here once they are ready.';
+export const SHOW_ALL_DOCUMENTS = 'Show all documents';
 
 export const PRODUCT_CATEGORIES_TITLE = 'Product Categories';
 export const PRODUCT_CATEGORIES_SUBTITLE = 'Browse wholesale catalog by category';
 export const SEARCH_CATEGORIES_PLACEHOLDER = 'Search categories...';
+export const NO_CATEGORIES_SEARCH_TITLE = 'No matching categories';
+export const NO_CATEGORIES_SEARCH_SUBTITLE =
+  'Try a different category name or clear your search to browse the full catalog.';
+export const NO_CATEGORIES_EMPTY_TITLE = 'No categories yet';
+export const NO_CATEGORIES_EMPTY_SUBTITLE =
+  'Product categories will appear here once the catalog is ready.';
 export const TOTAL_CATEGORIES_LABEL = 'TOTAL CATEGORIES';
 export const TOTAL_PRODUCTS_LABEL = 'TOTAL PRODUCTS';
 export const ITEMS_SUFFIX = 'items';
@@ -295,6 +327,14 @@ export const EXPECTED_LABEL = 'EXPECTED';
 export const DELIVERED_DATE_LABEL = 'DELIVERED';
 
 export const formatOrdersCount = (count: number) => `${count} ${ORDERS_COUNT_SUFFIX}`;
+export const formatNoOrdersFilterTitle = (filterLabel: string) =>
+  `No ${filterLabel.toLowerCase()} orders`;
+export const NO_ORDERS_FILTER_SUBTITLE =
+  'There are no orders with this status. View all orders or pick another filter.';
+export const NO_ORDERS_EMPTY_TITLE = 'No orders yet';
+export const NO_ORDERS_EMPTY_SUBTITLE =
+  'Orders you place will appear here. Check back after your next purchase.';
+export const SHOW_ALL_ORDERS = 'Show all orders';
 
 export const formatCartSubtitle = (products: number, items: number) =>
   `${products} products • ${items} ${TOTAL_ITEMS_SUFFIX}`;
@@ -304,6 +344,113 @@ export const formatSubtotalItems = (count: number) => `${SUBTOTAL_LABEL} (${coun
 export const formatTaxPercent = (percent: number) => `${TAX_LABEL} (${percent}%)`;
 
 export const formatPerPack = (price: string) => `${price} ${PER_PACK}`;
+
+export const BACK_TO_CART = 'Back to Cart';
+export const DELIVERY_DETAILS_TITLE = 'Delivery Details';
+export const DELIVERY_DETAILS_SUBTITLE = 'Select address and delivery preferences';
+export const DELIVERY_ADDRESS = 'Delivery Address';
+export const ADD_NEW_ADDRESS = '+ Add New';
+export const PREFERRED_DELIVERY_DATE = 'Preferred Delivery Date';
+export const NEXT_DAY_DELIVERY_HINT =
+  'Orders placed before 2 PM are eligible for next-day delivery';
+export const DELIVERY_TIME_SLOT = 'Delivery Time Slot';
+export const SPECIAL_INSTRUCTIONS_LABEL = 'Special Instructions';
+export const OPTIONAL_SUFFIX = '(Optional)';
+export const SPECIAL_INSTRUCTIONS_PLACEHOLDER =
+  'Add delivery notes, access codes, or specific handling requirements...';
+export const DELIVERY_SUMMARY = 'DELIVERY SUMMARY';
+export const CONTINUE_TO_PAYMENT = 'Continue to Payment';
+export const BADGE_REGISTERED = 'Registered';
+export const BADGE_SHIPPING = 'Shipping';
+export const BADGE_DEFAULT = 'DEFAULT';
+export const TIME_SLOT_MORNING = 'Morning';
+export const TIME_SLOT_AFTERNOON = 'Afternoon';
+export const TIME_SLOT_EVENING = 'Evening';
+export const TIME_SLOT_MORNING_RANGE = '8 AM - 12 PM';
+export const TIME_SLOT_AFTERNOON_RANGE = '12 PM - 4 PM';
+export const TIME_SLOT_EVENING_RANGE = '4 PM - 8 PM';
+
+export const BACK_TO_DELIVERY = 'Back to Delivery';
+export const REVIEW_ORDER_TITLE = 'Review Order';
+export const REVIEW_ORDER_SUBTITLE = 'Confirm details before placing order';
+export const CREDIT_STATUS = 'Credit Status';
+export const NET_30_DAYS = 'Net 30 Days';
+export const AVAILABLE_CREDIT = 'Available Credit';
+export const AFTER_THIS_ORDER = 'After this order';
+export const CHECKOUT_CREDIT_LIMIT = 'Credit Limit';
+export const DELIVERY_DETAILS_SECTION = 'Delivery Details';
+export const ORDER_ITEMS_SECTION = 'Order Items';
+export const PO_NUMBER_LABEL = 'Purchase Order Number';
+export const PO_NUMBER_PLACEHOLDER = 'Enter your PO number for reference';
+export const TERMS_PREFIX = 'I agree to the ';
+export const TERMS_AND_CONDITIONS = 'Terms and Conditions';
+export const TERMS_SUFFIX =
+  ' and confirm that the order details are correct. Payment terms of Net 30 Days apply.';
+export const ACCEPT_TERMS_TO_CONTINUE = 'Accept Terms to Continue';
+export const ORDER_TOTAL_CAPS = 'Order Total';
+export const QTY_PREFIX = 'Qty:';
+
+export const CHECKOUT_STEPS = 3;
+
+export const formatCharacterCount = (current: number, max: number) => `${current}/${max}`;
+
+export const formatOrderItemsCount = (count: number) =>
+  `${ORDER_ITEMS_SECTION} (${count} items)`;
+
+export const formatQtyLine = (qty: number, unitPrice: number) =>
+  `${QTY_PREFIX} ${qty} x $${unitPrice.toFixed(2)}`;
+
+export const formatDeliverySummaryLine = (dateLabel: string, slotLabel: string) =>
+  `${dateLabel} • ${slotLabel}`;
+
+export const formatScheduleLine = (dateLabel: string, slotLabel: string, timeRange: string) =>
+  `${dateLabel} • ${slotLabel} (${timeRange})`;
+
+export const ORDER_PLACED_SUCCESS_TITLE = 'Order Placed Successfully!';
+export const ORDER_PLACED_SUCCESS_MESSAGE =
+  "Thank you for your order. We've sent a confirmation email with your order details.";
+export const ORDER_NUMBER_LABEL = 'ORDER NUMBER';
+export const COPY = 'Copy';
+export const COPIED = 'Copied';
+export const PLACED_ON_PREFIX = 'Placed on';
+export const EXPECTED_DELIVERY = 'Expected Delivery';
+export const ORDER_SUMMARY_TITLE = 'Order Summary';
+export const ORDER_SUMMARY_TOTAL_ITEMS = 'Total Items';
+export const PAYMENT_DUE_INFO =
+  'Payment is due within 30 days. Invoice will be sent separately to your registered email address.';
+export const TRACK_ORDER = 'Track Order';
+export const VIEW_ORDERS = 'View Orders';
+export const GO_TO_DASHBOARD = 'Go to Dashboard';
+
+export const formatPlacedOn = (date: string) => `${PLACED_ON_PREFIX} ${date}`;
+
+export const formatTimeSlotDisplay = (slotLabel: string, timeRange: string) =>
+  `${slotLabel} (${timeRange})`;
+
+export const formatDeliveryLocation = (title: string, shortLocation: string) =>
+  `${title}, ${shortLocation}`;
+
+export const BACK_TO_ORDERS = 'Back to Orders';
+export const TOTAL_AMOUNT_LABEL = 'TOTAL AMOUNT';
+export const DELIVERY_DATE_LABEL = 'DELIVERY DATE';
+export const TAB_ITEMS = 'Items';
+export const TAB_TRACKING = 'Tracking';
+export const ORDER_ITEMS_TITLE = 'Order Items';
+export const TRACKING_HISTORY = 'Tracking History';
+export const VIEW_INVOICE = 'View Invoice';
+export const QUANTITY_LABEL = 'Quantity';
+export const EXPECTED_SUFFIX = 'Expected';
+export const IN_TRANSIT = 'In Transit';
+export const OUT_FOR_DELIVERY = 'Out for Delivery';
+export const ORDER_PLACED = 'Order Placed';
+export const PROCESSING_STATUS = 'Processing';
+
+export const formatItemsTab = (count: number) => `${TAB_ITEMS} (${count})`;
+
+export const formatQuantity = (qty: number) => `${QUANTITY_LABEL}: ${qty}`;
+
+export const formatTrackingTimestamp = (date: string, time: string) =>
+  `${date} • ${time}`;
 
 export const CART_EMPTY_TITLE = 'Your cart is empty';
 export const CART_EMPTY_SUBTITLE = 'Add products from the catalog to get started';

@@ -22,9 +22,18 @@ import {
   FILTER_STATEMENT,
   formatDocumentsCount,
   formatDownloadAll,
+  formatNoDocumentsFilterTitle,
+  NO_DOCUMENTS_SEARCH_TITLE,
+  NO_DOCUMENTS_SEARCH_SUBTITLE,
+  NO_DOCUMENTS_FILTER_SUBTITLE,
+  NO_DOCUMENTS_EMPTY_TITLE,
+  NO_DOCUMENTS_EMPTY_SUBTITLE,
+  CLEAR_SEARCH,
+  SHOW_ALL_DOCUMENTS,
   SEARCH_DOCUMENTS_PLACEHOLDER,
 } from '../constants/Constants';
 import {
+  actionIconBgColor,
   actionPurpleColor,
   backgroundBeigeColor,
   blackColor,
@@ -40,6 +49,7 @@ const {
   flex,
   flexDirectionRow,
   alignItemsCenter,
+  alignJustifyCenter,
 } = BaseStyle;
 
 const DocumentsScreen = () => {
@@ -190,6 +200,21 @@ const DocumentsScreen = () => {
     });
   }, [documentList, activeFilter, searchQuery]);
 
+  const isSearchActive = searchQuery.trim().length > 0;
+  const isFilterActive = activeFilter !== 'all';
+  const activeFilterLabel =
+    filterList.find(filter => filter.id === activeFilter)?.label ?? '';
+  const emptyTitle = isSearchActive
+    ? NO_DOCUMENTS_SEARCH_TITLE
+    : isFilterActive
+      ? formatNoDocumentsFilterTitle(activeFilterLabel)
+      : NO_DOCUMENTS_EMPTY_TITLE;
+  const emptySubtitle = isSearchActive
+    ? NO_DOCUMENTS_SEARCH_SUBTITLE
+    : isFilterActive
+      ? NO_DOCUMENTS_FILTER_SUBTITLE
+      : NO_DOCUMENTS_EMPTY_SUBTITLE;
+
   const handleDownload = documentId => {
     // TODO: download single document
     void documentId;
@@ -249,17 +274,42 @@ const DocumentsScreen = () => {
             })}
           </ScrollView>
 
-          {filteredDocuments.map(doc => (
-            <DocumentListItem
-              key={doc.id}
-              title={doc.title}
-              type={doc.type}
-              referenceId={doc.referenceId}
-              date={doc.date}
-              size={doc.size}
-              onDownload={() => handleDownload(doc.id)}
-            />
-          ))}
+          {filteredDocuments.length > 0 ? (
+            filteredDocuments.map(doc => (
+              <DocumentListItem
+                key={doc.id}
+                title={doc.title}
+                type={doc.type}
+                referenceId={doc.referenceId}
+                date={doc.date}
+                size={doc.size}
+                onDownload={() => handleDownload(doc.id)}
+              />
+            ))
+          ) : (
+            <View style={[alignJustifyCenter, styles.emptyPlaceholder]}>
+              <View style={styles.emptyIconWrap}>
+                <Icon name="file-document-outline" size={48} color={textSecondaryColor} />
+              </View>
+              <Text style={styles.emptyTitle}>{emptyTitle}</Text>
+              <Text style={styles.emptySubtitle}>{emptySubtitle}</Text>
+              {isSearchActive ? (
+                <TouchableOpacity
+                  style={styles.emptyButton}
+                  onPress={() => setSearchQuery('')}
+                  activeOpacity={0.85}>
+                  <Text style={styles.emptyButtonText}>{CLEAR_SEARCH}</Text>
+                </TouchableOpacity>
+              ) : isFilterActive ? (
+                <TouchableOpacity
+                  style={styles.emptyButton}
+                  onPress={() => setActiveFilter('all')}
+                  activeOpacity={0.85}>
+                  <Text style={styles.emptyButtonText}>{SHOW_ALL_DOCUMENTS}</Text>
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          )}
         </ScrollView>
 
         <View style={styles.footer}>
@@ -354,6 +404,44 @@ const styles = StyleSheet.create({
   filterTextActive: {
     ...style.fontWeightMedium,
     color: blackColor,
+  },
+  emptyPlaceholder: {
+    paddingVertical: spacings.ExtraLarge3x,
+    paddingHorizontal: spacings.xxLarge,
+    minHeight: 280,
+  },
+  emptyIconWrap: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: actionIconBgColor,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacings.xLarge,
+  },
+  emptyTitle: {
+    ...style.fontSizeNormal2x,
+    ...style.fontWeightMedium,
+    color: blackColor,
+    marginBottom: spacings.small,
+    textAlign: 'center',
+  },
+  emptySubtitle: {
+    ...style.fontSizeNormal,
+    color: textSecondaryColor,
+    textAlign: 'center',
+    marginBottom: spacings.xxLarge,
+  },
+  emptyButton: {
+    backgroundColor: actionPurpleColor,
+    paddingHorizontal: spacings.xxLarge,
+    paddingVertical: spacings.normal,
+    borderRadius: 10,
+  },
+  emptyButtonText: {
+    ...style.fontSizeNormal2x,
+    ...style.fontWeightMedium,
+    color: whiteColor,
   },
   footer: {
     paddingHorizontal: spacings.xxxxLarge,
