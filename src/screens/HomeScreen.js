@@ -160,11 +160,11 @@ const HomeScreen = () => {
   };
 
   const handleDocuments = () => {
-    // navigation.navigate(ROUTE_DOCUMENTS);
+    navigation.navigate(ROUTE_DOCUMENTS);
   };
 
   const handleBrowseCatalog = () => {
-    // navigation.navigate(ROUTE_CATEGORIES);
+    navigation.navigate(ROUTE_CATEGORIES);
   };
 
   const handleOrders = () => {
@@ -270,90 +270,91 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={[flex, styles.safeArea]}>
-      <View style={styles.fixedSection}>
-        <View style={[flexDirectionRow, justifyContentSpaceBetween, alignItemsCenter, styles.header]}>
-          <View style={styles.headerTextWrap}>
-            <Text style={styles.companyName}>{companyName}</Text>
-            <Text style={styles.accountId}>
-              {ACCOUNT_ID_LABEL}
-              {accountId}
-            </Text>
-          </View>
-          <View style={[flexDirectionRow, alignItemsCenter]}>
-            <TouchableOpacity
-              style={[styles.iconButton, alignJustifyCenter]}
-              activeOpacity={0.7}
-            // onPress={() =>
-            //   navigation.navigate(ROUTE_CART, {
-            //     fromHome: true,
-            //     account,
-            //   })
-            // }
-            >
-              <Icon name="shopping-outline" size={22} color={blackColor} />
-              <View style={[styles.badge, alignJustifyCenter]}>
-                <Text style={styles.badgeText}>{CART_BADGE_COUNT}</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.iconButton, styles.profileButton, alignJustifyCenter]}
-              // onPress={() => navigation.navigate(ROUTE_PROFILE, { account })}
-              activeOpacity={0.7}>
-              <Icon name="account-circle-outline" size={26} color={blackColor} />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.balanceCard}>
-          <View style={[flexDirectionRow, justifyContentSpaceBetween, alignItemsCenter]}>
-            <Text style={styles.balanceLabel}>{ACCOUNT_BALANCE}</Text>
-            <View style={styles.balanceBadge}>
-              <Text style={styles.balanceBadgeText}>{balancePercent}</Text>
-            </View>
-          </View>
-          <Text style={styles.balanceAmount}>{balanceAmount}</Text>
-          <View style={[flexDirectionRow, styles.balanceFooter]}>
-            <View style={[flexDirectionRow, alignItemsCenter]}>
-              <View style={[styles.dot, { backgroundColor: creditDotColor }]} />
-              <Text style={styles.balanceMeta}>
-                {CREDIT_LABEL} {credit}
-              </Text>
-            </View>
-            <View style={[flexDirectionRow, alignItemsCenter]}>
-              <View style={[styles.dot, { backgroundColor: outstandingDotColor }]} />
-              <Text style={styles.balanceMeta}>
-                {OUTSTANDING_LABEL} {outstanding}
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <TouchableOpacity
-          style={[flexDirectionRow, alignItemsCenter, styles.quickReorder]}
-          onPress={handleQuickReorder}
-          activeOpacity={0.85}>
-          <Icon name="sync" size={22} color={whiteColor} />
-          <Text style={styles.quickReorderText}>{QUICK_REORDER}</Text>
-        </TouchableOpacity>
-
-        <View style={[flexDirectionRow, flexWrap, justifyContentSpaceBetween, styles.actionGrid]}>
-          {ActionGridList.map(item => (
-            <ActionGridItem
-              key={item.id}
-              label={item.label}
-              icon={item.icon}
-              iconColor={item.iconColor}
-              iconBgColor={item.iconBgColor}
-              onPress={() => handleActionPress(item.id)}
-            />
-          ))}
-        </View>
-      </View>
-
       <ScrollView
         style={flex}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}>
+        <View style={styles.fixedSection}>
+          <View style={[flexDirectionRow, justifyContentSpaceBetween, alignItemsCenter, styles.header]}>
+            <View style={styles.headerTextWrap}>
+              <Text style={styles.companyName}>{companyName}</Text>
+              <Text style={styles.accountId}>
+                {ACCOUNT_ID_LABEL}
+                {accountId}
+              </Text>
+            </View>
+            <View style={[flexDirectionRow, alignItemsCenter]}>
+              <TouchableOpacity
+                style={[styles.iconButton, alignJustifyCenter]}
+                activeOpacity={0.7}
+              // onPress={() =>
+              //   navigation.navigate(ROUTE_CART, {
+              //     fromHome: true,
+              //     account,
+              //   })
+              // }
+              >
+                <Icon name="shopping-outline" size={22} color={blackColor} />
+                <View style={[styles.badge, alignJustifyCenter]}>
+                  <Text style={styles.badgeText}>{CART_BADGE_COUNT}</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.iconButton, styles.profileButton, alignJustifyCenter]}
+                // onPress={() => navigation.navigate(ROUTE_PROFILE, { account })}
+                activeOpacity={0.7}>
+                <Icon name="account-circle-outline" size={26} color={blackColor} />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.balanceCard}>
+            <View style={[flexDirectionRow, justifyContentSpaceBetween, alignItemsCenter]}>
+              <Text style={styles.balanceLabel}>{ACCOUNT_BALANCE}</Text>
+              <View style={styles.balanceBadge}>
+                <Text style={styles.balanceBadgeText}>{balancePercent}</Text>
+              </View>
+            </View>
+            <Text style={styles.balanceAmount}>{balanceAmount}</Text>
+            <View style={[flexDirectionRow, styles.balanceFooter]}>
+              <View style={[flexDirectionRow, alignItemsCenter]}>
+                <View style={[styles.dot, { backgroundColor: creditDotColor }]} />
+                <Text style={styles.balanceMeta}>
+                  {CREDIT_LABEL} {credit}
+                </Text>
+              </View>
+              <View style={[flexDirectionRow, alignItemsCenter]}>
+                <View style={[styles.dot, { backgroundColor: outstandingDotColor }]} />
+                <Text style={styles.balanceMeta}>
+                  {OUTSTANDING_LABEL} {outstanding}
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <TouchableOpacity
+            style={[flexDirectionRow, alignItemsCenter, styles.quickReorder]}
+            onPress={handleQuickReorder}
+            activeOpacity={0.85}>
+            <Icon name="sync" size={22} color={whiteColor} />
+            <Text style={styles.quickReorderText}>{QUICK_REORDER}</Text>
+          </TouchableOpacity>
+
+          <View style={[flexDirectionRow, flexWrap, justifyContentSpaceBetween, styles.actionGrid]}>
+            {ActionGridList.map(item => (
+              <ActionGridItem
+                key={item.id}
+                label={item.label}
+                icon={item.icon}
+                iconColor={item.iconColor}
+                iconBgColor={item.iconBgColor}
+                onPress={() => handleActionPress(item.id)}
+              />
+            ))}
+          </View>
+        </View>
+
+
         <View style={[flexDirectionRow, styles.statsRow]}>
           <SummaryStatCard label={ORDERS} value={String(recentOrdersList.length)} />
           <View style={styles.statGap} />
@@ -416,7 +417,7 @@ const styles = StyleSheet.create({
     width: wp(100),
   },
   fixedSection: {
-    paddingHorizontal: spacings.xxxxLarge,
+    // paddingHorizontal: spacings.xxxxLarge,
     paddingTop: spacings.large,
   },
   actionGrid: {

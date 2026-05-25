@@ -24,6 +24,10 @@ const CustomInput = ({
   secureTextEntry = false,
   keyboardType = 'default',
   autoCapitalize = 'none',
+  autoCorrect,
+  spellCheck,
+  textContentType,
+  autoComplete,
   required = false,
   error = '',
   multiline = false,
@@ -32,6 +36,12 @@ const CustomInput = ({
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const hasError = Boolean(error);
   const isPasswordField = secureTextEntry;
+  const isEmailInput = keyboardType === 'email-address';
+
+  const handleChangeText = text => {
+    if (!onChangeText) return;
+    onChangeText(isEmailInput ? text.toLowerCase() : text);
+  };
 
   return (
     <View style={[styles.container, { marginBottom: heightPercentageToDP(2.5) }]}>
@@ -50,10 +60,14 @@ const CustomInput = ({
           placeholder={placeholder}
           placeholderTextColor={placeholderColor}
           value={value}
-          onChangeText={onChangeText}
+          onChangeText={handleChangeText}
           secureTextEntry={isPasswordField && !isPasswordVisible}
           keyboardType={keyboardType}
-          autoCapitalize={autoCapitalize}
+          autoCapitalize={isEmailInput ? 'none' : autoCapitalize}
+          autoCorrect={isEmailInput ? false : autoCorrect}
+          spellCheck={isEmailInput ? false : spellCheck}
+          textContentType={isEmailInput ? 'emailAddress' : textContentType}
+          autoComplete={isEmailInput ? 'email' : autoComplete}
           multiline={multiline}
           numberOfLines={numberOfLines}
           textAlignVertical={multiline ? 'top' : 'center'}

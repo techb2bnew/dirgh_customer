@@ -362,7 +362,79 @@ export const DELIVERY_SUMMARY = 'DELIVERY SUMMARY';
 export const CONTINUE_TO_PAYMENT = 'Continue to Payment';
 export const BADGE_REGISTERED = 'Registered';
 export const BADGE_SHIPPING = 'Shipping';
+export const BADGE_WAREHOUSE = 'Warehouse';
 export const BADGE_DEFAULT = 'DEFAULT';
+
+export const ADD_ADDRESS_TITLE = 'Add New Address';
+export const ADD_ADDRESS_SUBTITLE = 'Add a delivery location for this order';
+export const ADDRESS_NAME_LABEL = 'Address name';
+export const ADDRESS_NAME_PLACEHOLDER = 'e.g. Main Warehouse';
+export const STREET_ADDRESS_LABEL = 'Street / building / area';
+export const STREET_ADDRESS_PLACEHOLDER = '145, Brigade Road, Shanthala Nagar';
+export const CITY_LABEL = 'City';
+export const CITY_PLACEHOLDER = 'Bangalore';
+export const STATE_LABEL = 'State';
+export const STATE_PLACEHOLDER = 'e.g. Karnataka';
+export const PINCODE_LABEL = 'PIN';
+export const PINCODE_PLACEHOLDER = '560001';
+export const ADDRESS_TYPE_LABEL = 'Address type';
+export const SET_DEFAULT_ADDRESS = 'Set as default delivery address';
+export const SAVE_ADDRESS = 'Save address';
+export const CANCEL = 'Cancel';
+export const SECTION_ADDRESS_DETAILS = 'Address details';
+export const SECTION_LOCATION = 'Location';
+export const ADDRESS_NAME_REQUIRED = 'Address name is required';
+export const STREET_ADDRESS_REQUIRED = 'Street address is required';
+export const CITY_REQUIRED = 'City is required';
+export const STATE_REQUIRED = 'State is required';
+export const PINCODE_REQUIRED = 'PIN code is required';
+export const PINCODE_INVALID = 'Enter a valid 6-digit PIN code';
+export const ADDRESS_TYPE_REQUIRED = 'Please select address type';
+
+export const ADDRESS_TYPE_SHIPPING = 'shipping';
+export const ADDRESS_TYPE_WAREHOUSE = 'warehouse';
+
+export const INDIAN_STATES = [
+  'Andhra Pradesh',
+  'Arunachal Pradesh',
+  'Assam',
+  'Bihar',
+  'Chhattisgarh',
+  'Goa',
+  'Gujarat',
+  'Haryana',
+  'Himachal Pradesh',
+  'Jharkhand',
+  'Karnataka',
+  'Kerala',
+  'Madhya Pradesh',
+  'Maharashtra',
+  'Manipur',
+  'Meghalaya',
+  'Mizoram',
+  'Nagaland',
+  'Odisha',
+  'Punjab',
+  'Rajasthan',
+  'Sikkim',
+  'Tamil Nadu',
+  'Telangana',
+  'Tripura',
+  'Uttar Pradesh',
+  'Uttarakhand',
+  'West Bengal',
+  'Delhi',
+  'Jammu and Kashmir',
+  'Ladakh',
+  'Puducherry',
+  'Chandigarh',
+];
+
+export const formatDeliveryAddressLine2 = (
+  city: string,
+  state: string,
+  pincode: string,
+) => `${city}, ${state} - ${pincode}`;
 export const TIME_SLOT_MORNING = 'Morning';
 export const TIME_SLOT_AFTERNOON = 'Afternoon';
 export const TIME_SLOT_EVENING = 'Evening';

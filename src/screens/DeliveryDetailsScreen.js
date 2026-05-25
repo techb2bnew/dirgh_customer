@@ -12,6 +12,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CheckoutProgressBar from '../components/CheckoutProgressBar';
+import AddAddressModal from '../components/Modal/AddAddressModal';
 import CustomButton from '../components/CustomButton';
 import { ROUTE_REVIEW_ORDER } from '../navigation/AppNavigator';
 import {
@@ -80,6 +81,7 @@ const DeliveryDetailsScreen = () => {
   const [selectedDateId, setSelectedDateId] = useState('');
   const [selectedTimeSlotId, setSelectedTimeSlotId] = useState('morning');
   const [specialInstructions, setSpecialInstructions] = useState('');
+  const [isAddAddressVisible, setIsAddAddressVisible] = useState(false);
 
   useEffect(() => {
     setAddressList([
@@ -162,6 +164,24 @@ const DeliveryDetailsScreen = () => {
     return { bg: actionLavenderBgColor, text: actionLavenderColor };
   };
 
+  const handleSaveAddress = newAddress => {
+    setAddressList(prev => {
+      const updated = prev.map(item => {
+        if (!newAddress.isDefault) {
+          return item;
+        }
+        return {
+          ...item,
+          badges: item.badges.filter(badge => badge.type !== 'default'),
+        };
+      });
+      const { isDefault, ...addressItem } = newAddress;
+      return [...updated, addressItem];
+    });
+    setSelectedAddressId(newAddress.id);
+    setIsAddAddressVisible(false);
+  };
+
   const handleContinue = () => {
     navigation.navigate(ROUTE_REVIEW_ORDER, {
       ...route.params,
@@ -196,11 +216,13 @@ const DeliveryDetailsScreen = () => {
 
           <View style={[flexDirectionRow, justifyContentSpaceBetween, alignItemsCenter, styles.sectionHeader]}>
             <Text style={styles.sectionTitle}>{DELIVERY_ADDRESS}</Text>
-            <TouchableOpacity activeOpacity={0.7}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => setIsAddAddressVisible(true)}>
               <Text style={styles.addNewText}>{ADD_NEW_ADDRESS}</Text>
             </TouchableOpacity>
           </View>
-
+          
           {addressList.map(address => {
             const isSelected = selectedAddressId === address.id;
             return (
@@ -308,6 +330,12 @@ const DeliveryDetailsScreen = () => {
           <CustomButton title={CONTINUE_TO_PAYMENT} onPress={handleContinue} style={styles.continueButton} />
         </View>
       </View>
+
+      <AddAddressModal
+        visible={isAddAddressVisible}
+        onClose={() => setIsAddAddressVisible(false)}
+        onSave={handleSaveAddress}
+      />
     </SafeAreaView>
   );
 };

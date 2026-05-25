@@ -270,7 +270,7 @@ const NewOrderScreen = () => {
               <Text style={styles.linkText}>{PREVIOUS_ORDERS}</Text>
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.7} onPress={() => {
-              // navigation.navigate(ROUTE_CATEGORIES)
+              navigation.navigate(ROUTE_CATEGORIES)
             }}>
               <Text style={styles.linkText}>{BROWSE_CATALOG}</Text>
             </TouchableOpacity>

@@ -132,7 +132,7 @@ const SelectAccountScreen = () => {
               name={account.name}
               role={account.role}
               employees={account.employees}
-            onPress={() => handleAccountPress(account)}
+              onPress={() => handleAccountPress(account)}
             />
           ))}
         </View>

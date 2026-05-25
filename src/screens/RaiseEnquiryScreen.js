@@ -92,12 +92,10 @@ const formatFileSize = bytes => {
 
 const RaiseEnquiryScreen = () => {
   const navigation = useNavigation();
-
   const [viewMode, setViewMode] = useState(VIEW_LIST);
   const [activeFilter, setActiveFilter] = useState('all');
   const [ticketsList, setTicketsList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
   const [selectedPriority, setSelectedPriority] = useState(PRIORITY_MEDIUM);
   const [subject, setSubject] = useState('');
@@ -357,7 +355,6 @@ const RaiseEnquiryScreen = () => {
   const renderFormView = () => (
     <>
       <Text style={styles.formSectionLabel}>{CATEGORY_LABEL}</Text>
-      {errors.category ? <Text style={styles.errorText}>{errors.category}</Text> : null}
       <View style={[flexDirectionRow, flexWrap, styles.categoryGrid]}>
         {categoryList.map(category => {
           const isSelected = selectedCategoryId === category.id;
@@ -379,6 +376,7 @@ const RaiseEnquiryScreen = () => {
             </TouchableOpacity>
           );
         })}
+        {errors.category ? <Text style={styles.errorText}>{errors.category}</Text> : null}
       </View>
 
       <Text style={styles.formSectionLabel}>{PRIORITY_LABEL}</Text>
@@ -495,7 +493,7 @@ const RaiseEnquiryScreen = () => {
           {viewMode === VIEW_LIST ? renderListView() : renderFormView()}
         </ScrollView>
 
-        {/* <View style={styles.footer}>
+        <View style={styles.footer}>
           {viewMode === VIEW_LIST ? (
             <TouchableOpacity
               style={[flexDirectionRow, alignItemsCenter, styles.raiseButton]}
@@ -507,7 +505,7 @@ const RaiseEnquiryScreen = () => {
           ) : (
             <CustomButton title={SUBMIT_ENQUIRY} onPress={handleSubmit} loading={isSubmitting} />
           )}
-        </View> */}
+        </View>
       </View>
     </SafeAreaView>
   );

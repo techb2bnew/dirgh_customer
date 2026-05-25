@@ -143,115 +143,115 @@ const LoginScreen = () => {
 
   return (
     <>
-    <SafeAreaView style={[flex, styles.safeArea]}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}>
-        <View style={[justifyContentCenter, { height: hp(18) }]}>
-          <View style={[alignJustifyCenter, styles.logoBox]}>
-            <Icon name="square-outline" size={28} color={whiteColor} />
+      <SafeAreaView style={[flex, styles.safeArea]}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}>
+          <View style={[justifyContentCenter, { height: hp(18) }]}>
+            <View style={[alignJustifyCenter, styles.logoBox]}>
+              <Icon name="square-outline" size={28} color={whiteColor} />
+            </View>
           </View>
-        </View>
-        <Text style={styles.title}>{WELCOME_TITLE}</Text>
-        <Text style={styles.subtitle}>{WELCOME_SUBTITLE}</Text>
+          <Text style={styles.title}>{WELCOME_TITLE}</Text>
+          <Text style={styles.subtitle}>{WELCOME_SUBTITLE}</Text>
 
-        <CustomInput
-          label={EMAIL_LABEL}
-          placeholder={EMAIL_PLACEHOLDER}
-          value={email}
-          onChangeText={handleEmailChange}
-          keyboardType="email-address"
-          required
-          error={errors.email}
-        />
+          <CustomInput
+            label={EMAIL_LABEL}
+            placeholder={EMAIL_PLACEHOLDER}
+            value={email}
+            onChangeText={handleEmailChange}
+            keyboardType="email-address"
+            required
+            error={errors.email}
+          />
 
-        <CustomInput
-          label={PASSWORD_LABEL}
-          placeholder={PASSWORD_PLACEHOLDER}
-          value={password}
-          onChangeText={handlePasswordChange}
-          secureTextEntry
-          required
-          error={errors.password}
-        />
+          <CustomInput
+            label={PASSWORD_LABEL}
+            placeholder={PASSWORD_PLACEHOLDER}
+            value={password}
+            onChangeText={handlePasswordChange}
+            secureTextEntry
+            required
+            error={errors.password}
+          />
 
-        <View style={styles.rememberMeSection}>
-          <View style={[flexDirectionRow, justifyContentSpaceBetween, styles.optionsRow]}>
-            <Pressable
-              style={[flexDirectionRow, alignItemsCenter]}
-              onPress={handleRememberMeToggle}>
-              <Icon
-                name={rememberMe ? 'checkbox-marked' : 'checkbox-blank-outline'}
-                size={22}
-                color={
-                  rememberMe
-                    ? primaryColor
-                    : errors.rememberMe
-                      ? redColor
-                      : textSecondaryColor
-                }
-              />
-              <Text style={styles.rememberMeText}>
-                {REMEMBER_ME}
-                {/* <Text style={styles.required}> *</Text> */}
-              </Text>
-            </Pressable>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => navigation.navigate(ROUTE_FORGOT_PASSWORD)}>
-              <Text style={styles.forgotText}>{FORGOT_PASSWORD}</Text>
-            </TouchableOpacity>
+          <View style={styles.rememberMeSection}>
+            <View style={[flexDirectionRow, justifyContentSpaceBetween, styles.optionsRow]}>
+              <Pressable
+                style={[flexDirectionRow, alignItemsCenter]}
+                onPress={handleRememberMeToggle}>
+                <Icon
+                  name={rememberMe ? 'checkbox-marked' : 'checkbox-blank-outline'}
+                  size={22}
+                  color={
+                    rememberMe
+                      ? primaryColor
+                      : errors.rememberMe
+                        ? redColor
+                        : textSecondaryColor
+                  }
+                />
+                <Text style={styles.rememberMeText}>
+                  {REMEMBER_ME}
+                  {/* <Text style={styles.required}> *</Text> */}
+                </Text>
+              </Pressable>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate(ROUTE_FORGOT_PASSWORD)}>
+                <Text style={styles.forgotText}>{FORGOT_PASSWORD}</Text>
+              </TouchableOpacity>
+            </View>
+            {errors.rememberMe ? (
+              <Text style={styles.rememberMeError}>{errors.rememberMe}</Text>
+            ) : null}
           </View>
-          {errors.rememberMe ? (
-            <Text style={styles.rememberMeError}>{errors.rememberMe}</Text>
-          ) : null}
-        </View>
 
-        <CustomButton
-          title={SIGN_IN}
-          onPress={handleSignIn}
-          style={styles.signInButton}
-        />
-
-        <View style={[flexDirectionRow, alignItemsCenter, styles.dividerRow]}>
-          <View style={styles.dividerLine} />
-          <Text style={styles.dividerText}>{OR_CONTINUE_WITH}</Text>
-          <View style={styles.dividerLine} />
-        </View>
-
-        <View style={[flexDirectionRow, justifyContentSpaceBetween, styles.socialRow]}>
           <CustomButton
-            variant="outline"
-            onPress={() => { }}
-            style={styles.socialButton}
-            activeOpacity={0.7}>
-            <FontAwesome name="google" size={22} color={blackColor} />
-          </CustomButton>
-          <CustomButton
-            variant="outline"
-            onPress={() => { }}
-            style={styles.socialButton}
-            activeOpacity={0.7}>
-            <Icon name="apple" size={26} color={blackColor} />
-          </CustomButton>
-        </View>
+            title={SIGN_IN}
+            onPress={handleSignIn}
+            style={styles.signInButton}
+          />
 
-        <Text style={[styles.footerText, textAlign]}>
-          {NO_ACCOUNT}{' '}
-          <Text
-            style={styles.footerLink}
-            onPress={() => setShowContactSalesModal(true)}>
-            {CONTACT_SALES}
+          <View style={[flexDirectionRow, alignItemsCenter, styles.dividerRow]}>
+            <View style={styles.dividerLine} />
+            <Text style={styles.dividerText}>{OR_CONTINUE_WITH}</Text>
+            <View style={styles.dividerLine} />
+          </View>
+
+          <View style={[flexDirectionRow, justifyContentSpaceBetween, styles.socialRow]}>
+            <CustomButton
+              variant="outline"
+              onPress={() => { }}
+              style={styles.socialButton}
+              activeOpacity={0.7}>
+              <FontAwesome name="google" size={22} color={blackColor} />
+            </CustomButton>
+            <CustomButton
+              variant="outline"
+              onPress={() => { }}
+              style={styles.socialButton}
+              activeOpacity={0.7}>
+              <Icon name="apple" size={26} color={blackColor} />
+            </CustomButton>
+          </View>
+
+          <Text style={[styles.footerText, textAlign]}>
+            {NO_ACCOUNT}{' '}
+            <Text
+              style={styles.footerLink}
+              onPress={() => setShowContactSalesModal(true)}>
+              {CONTACT_SALES}
+            </Text>
           </Text>
-        </Text>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
 
-    <ContactSalesModal
-      visible={showContactSalesModal}
-      onClose={() => setShowContactSalesModal(false)}
-    />
+      <ContactSalesModal
+        visible={showContactSalesModal}
+        onClose={() => setShowContactSalesModal(false)}
+      />
     </>
   );
 };

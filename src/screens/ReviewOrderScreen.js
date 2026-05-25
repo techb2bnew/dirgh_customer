@@ -256,7 +256,7 @@ const ReviewOrderScreen = () => {
           </Pressable>
         </ScrollView>
 
-        <View style={styles.footer}>
+        {/* <View style={styles.footer}>
           <View style={styles.summaryRow}>
             <Text style={styles.summaryLabel}>{SUBTOTAL_LABEL}</Text>
             <Text style={styles.summaryValue}>{formatPrice(subtotal)}</Text>
@@ -275,12 +275,12 @@ const ReviewOrderScreen = () => {
           </View>
           <CustomButton
             title={termsAccepted ? PLACE_ORDER : ACCEPT_TERMS_TO_CONTINUE}
-            onPress={handlePlaceOrder}
+            // onPress={handlePlaceOrder}
             disabled={!termsAccepted}
             style={[styles.placeButton, !termsAccepted && styles.placeButtonDisabled]}
             textStyle={!termsAccepted && styles.placeButtonTextDisabled}
           />
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );
