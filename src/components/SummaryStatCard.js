@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     ...style.fontSizeLarge2x,
     ...style.fontWeightThin,
     color: blackColor,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   viewAll: {
     ...style.fontSizeSmall1x,

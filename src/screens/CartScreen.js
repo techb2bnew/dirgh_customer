@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: blackColor,
     marginBottom: spacings.small,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   subtitle: {
     ...style.fontSizeNormal,
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
     ...style.fontSizeLarge2x,
     ...style.fontWeightMedium1x,
     color: blackColor,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   checkoutButton: {
     backgroundColor: primaryColor,

@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: blackColor,
     marginBottom: spacings.xsmall,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   headSub: { ...style.fontSizeNormal, color: textSecondaryColor, lineHeight: 20 },
   headClose: {

@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
+  Keyboard,
   Platform,
   ScrollView,
   StyleSheet,
@@ -61,8 +62,11 @@ import {
 } from '../constants/Color';
 import { BaseStyle } from '../constants/Style';
 import { style, spacings } from '../constants/Fonts';
+import { heightPercentageToDP as hp } from '../utils';
 
 const { flex, flexDirectionRow, flexWrap, alignItemsCenter, alignJustifyCenter } = BaseStyle;
+
+const SCROLL_OFFSET_ABOVE_FIELD = hp(12);
 
 const VIEW_LIST = 'list';
 const VIEW_FORM = 'form';
@@ -92,6 +96,9 @@ const formatFileSize = bytes => {
 
 const RaiseEnquiryScreen = () => {
   const navigation = useNavigation();
+  const scrollRef = useRef(null);
+  const messageInputRef = useRef(null);
+  const fieldOffsets = useRef({});
   const [viewMode, setViewMode] = useState(VIEW_LIST);
   const [activeFilter, setActiveFilter] = useState('all');
   const [ticketsList, setTicketsList] = useState([]);
@@ -173,6 +180,23 @@ const RaiseEnquiryScreen = () => {
   }, [ticketsList, activeFilter]);
 
   const ticketsCountLabel = `${ticketsList.length} ${TICKETS_COUNT_SUFFIX}`;
+
+  const registerFieldLayout = (fieldKey, event) => {
+    fieldOffsets.current[fieldKey] = event.nativeEvent.layout.y;
+  };
+
+  const scrollToField = fieldKey => {
+    const y = fieldOffsets.current[fieldKey];
+    if (y === undefined) {
+      return;
+    }
+    requestAnimationFrame(() => {
+      scrollRef.current?.scrollTo({
+        y: Math.max(0, y - SCROLL_OFFSET_ABOVE_FIELD),
+        animated: true,
+      });
+    });
+  };
 
   const resetForm = () => {
     setSelectedCategoryId('');
@@ -397,37 +421,51 @@ const RaiseEnquiryScreen = () => {
         })}
       </View>
 
-      <CustomInput
-        label={SUBJECT_LABEL}
-        placeholder={SUBJECT_PLACEHOLDER}
-        value={subject}
-        onChangeText={text => {
-          setSubject(text);
-          if (errors.subject) {
-            setErrors(prev => ({ ...prev, subject: '' }));
-          }
-        }}
-        required
-        error={errors.subject}
-        autoCapitalize="sentences"
-      />
+      <View onLayout={e => registerFieldLayout('subject', e)}>
+        <CustomInput
+          label={SUBJECT_LABEL}
+          placeholder={SUBJECT_PLACEHOLDER}
+          value={subject}
+          onChangeText={text => {
+            setSubject(text);
+            if (errors.subject) {
+              setErrors(prev => ({ ...prev, subject: '' }));
+            }
+          }}
+          onFocus={() => scrollToField('subject')}
+          required
+          error={errors.subject}
+          autoCapitalize="sentences"
+          returnKeyType="next"
+          blurOnSubmit={false}
+          onSubmitEditing={() => messageInputRef.current?.focus()}
+        />
+      </View>
 
-      <CustomInput
-        label={MESSAGE_LABEL}
-        placeholder={MESSAGE_PLACEHOLDER}
-        value={message}
-        onChangeText={text => {
-          setMessage(text);
-          if (errors.message) {
-            setErrors(prev => ({ ...prev, message: '' }));
-          }
-        }}
-        required
-        error={errors.message}
-        multiline
-        numberOfLines={5}
-        autoCapitalize="sentences"
-      />
+      <View onLayout={e => registerFieldLayout('message', e)}>
+        <CustomInput
+          label={MESSAGE_LABEL}
+          placeholder={MESSAGE_PLACEHOLDER}
+          value={message}
+          onChangeText={text => {
+            setMessage(text);
+            if (errors.message) {
+              setErrors(prev => ({ ...prev, message: '' }));
+            }
+          }}
+          onFocus={() => scrollToField('message')}
+          inputRef={messageInputRef}
+          required
+          error={errors.message}
+          multiline
+          numberOfLines={5}
+          autoCapitalize="sentences"
+          returnKeyType="done"
+          blurOnSubmit
+          submitBehavior="blurAndSubmit"
+          onSubmitEditing={() => Keyboard.dismiss()}
+        />
+      </View>
 
       <Text style={styles.formSectionLabel}>{ATTACHMENTS_LABEL}</Text>
       <TouchableOpacity
@@ -466,13 +504,17 @@ const RaiseEnquiryScreen = () => {
     <SafeAreaView style={[flex, styles.safeArea]}>
       <View style={flex}>
         <ScrollView
+          ref={scrollRef}
           style={flex}
           contentContainerStyle={[
             styles.scrollContent,
             viewMode === VIEW_LIST && styles.scrollContentWithFooter,
+            viewMode === VIEW_FORM && styles.scrollContentFormFooter,
           ]}
           showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled">
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          automaticallyAdjustKeyboardInsets={viewMode === VIEW_FORM}>
           <TouchableOpacity
             style={[flexDirectionRow, alignItemsCenter, styles.backButton]}
             onPress={handleBack}
@@ -526,6 +568,9 @@ const styles = StyleSheet.create({
   scrollContentWithFooter: {
     paddingBottom: spacings.ExtraLarge,
   },
+  scrollContentFormFooter: {
+    paddingBottom: hp(22),
+  },
   backButton: {
     marginBottom: spacings.xxLarge,
   },
@@ -539,7 +584,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: blackColor,
     marginBottom: spacings.small,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   subtitle: {
     ...style.fontSizeNormal,

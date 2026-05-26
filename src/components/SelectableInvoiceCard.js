@@ -138,6 +138,6 @@ const styles = StyleSheet.create({
     ...style.fontSizeLarge,
     ...style.fontWeightThin,
     color: blackColor,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
 });

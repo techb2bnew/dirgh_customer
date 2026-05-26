@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Platform,
   ScrollView,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomButton from '../components/CustomButton';
@@ -111,6 +111,25 @@ const ForgotPasswordScreen = () => {
   const [resendTimer, setResendTimer] = useState(0);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const resetForm = useCallback(() => {
+    setStep(1);
+    setEmail('');
+    setOtp('');
+    setPassword('');
+    setConfirmPassword('');
+    setErrors({});
+    setResendTimer(0);
+    setShowSuccessModal(false);
+    setIsLoading(false);
+    otpInputRef.current?.clear();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      resetForm();
+    }, [resetForm]),
+  );
 
   useEffect(() => {
     if (resendTimer <= 0) {
@@ -414,7 +433,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: blackColor,
     marginBottom: spacings.normal,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   subtitle: {
     ...style.fontSizeNormal2x,

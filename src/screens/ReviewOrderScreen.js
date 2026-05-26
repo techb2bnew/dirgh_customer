@@ -256,16 +256,16 @@ const ReviewOrderScreen = () => {
           </Pressable>
         </ScrollView>
 
-        {/* <View style={styles.footer}>
-          <View style={styles.summaryRow}>
+        <View style={styles.footer}>
+          <View style={[styles.summaryRow,justifyContentSpaceBetween]}>
             <Text style={styles.summaryLabel}>{SUBTOTAL_LABEL}</Text>
             <Text style={styles.summaryValue}>{formatPrice(subtotal)}</Text>
           </View>
-          <View style={styles.summaryRow}>
+         <View style={[styles.summaryRow,justifyContentSpaceBetween]}>
             <Text style={styles.summaryLabel}>{DELIVERY_LABEL}</Text>
             <Text style={[styles.summaryValue, styles.freeText]}>{FREE_LABEL}</Text>
           </View>
-          <View style={styles.summaryRow}>
+          <View style={[styles.summaryRow,justifyContentSpaceBetween]}>
             <Text style={styles.summaryLabel}>{formatTaxPercent(TAX_PERCENT)}</Text>
             <Text style={styles.summaryValue}>{formatPrice(taxAmount)}</Text>
           </View>
@@ -275,12 +275,12 @@ const ReviewOrderScreen = () => {
           </View>
           <CustomButton
             title={termsAccepted ? PLACE_ORDER : ACCEPT_TERMS_TO_CONTINUE}
-            // onPress={handlePlaceOrder}
+            onPress={handlePlaceOrder}
             disabled={!termsAccepted}
             style={[styles.placeButton, !termsAccepted && styles.placeButtonDisabled]}
             textStyle={!termsAccepted && styles.placeButtonTextDisabled}
           />
-        </View> */}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: blackColor,
     marginBottom: spacings.small,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   subtitle: {
     ...style.fontSizeNormal,
@@ -519,7 +519,7 @@ const styles = StyleSheet.create({
     ...style.fontSizeLarge2x,
     ...style.fontWeightMedium1x,
     color: blackColor,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   placeButton: {
     borderRadius: 12,

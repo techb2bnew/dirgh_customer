@@ -32,6 +32,13 @@ const CustomInput = ({
   error = '',
   multiline = false,
   numberOfLines = 1,
+  onFocus,
+  onBlur,
+  inputRef,
+  returnKeyType,
+  blurOnSubmit,
+  onSubmitEditing,
+  submitBehavior,
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const hasError = Boolean(error);
@@ -51,6 +58,7 @@ const CustomInput = ({
       </Text>
       <View style={[positionRelative, width100Percent]}>
         <TextInput
+          ref={inputRef}
           style={[
             styles.input,
             isPasswordField && styles.inputWithIcon,
@@ -71,6 +79,12 @@ const CustomInput = ({
           multiline={multiline}
           numberOfLines={numberOfLines}
           textAlignVertical={multiline ? 'top' : 'center'}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          returnKeyType={returnKeyType}
+          blurOnSubmit={blurOnSubmit}
+          onSubmitEditing={onSubmitEditing}
+          submitBehavior={submitBehavior}
         />
         {isPasswordField ? (
           <TouchableOpacity

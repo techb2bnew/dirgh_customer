@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: blackColor,
     marginBottom: spacings.small,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   subtitle: {
     ...style.fontSizeNormal,
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: whiteColor,
     marginVertical: spacings.large,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   progressTrack: {
     ...width100Percent,
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
     ...style.fontSizeLarge,
     ...style.fontWeightThin,
     color: blackColor,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   overdueValue: {
     color: actionTealColor,
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightThin,
     color: blackColor,
     marginTop: spacings.large,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   actionGrid: {
     ...width100Percent,

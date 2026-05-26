@@ -10,10 +10,12 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import ConfirmModal from '../components/Modal/ConfirmModal';
 import ProfileAddressCard from '../components/ProfileAddressCard';
 import ProfileContactCard from '../components/ProfileContactCard';
 import ProfileDetailCard from '../components/ProfileDetailCard';
 import SegmentedTabs from '../components/SegmentedTabs';
+import { ROUTE_LOGIN } from '../navigation/AppNavigator';
 import {
   ACCOUNT_INFORMATION,
   ACCOUNT_MANAGER_LABEL,
@@ -27,6 +29,9 @@ import {
   GST_LABEL,
   INCORPORATION_LABEL,
   INDUSTRY_LABEL,
+  LOGOUT,
+  LOGOUT_CONFIRM_MESSAGE,
+  LOGOUT_CONFIRM_TITLE,
   NOTIFICATION_SETTINGS,
   PAN_LABEL,
   PAYMENT_TERMS_LABEL,
@@ -44,6 +49,7 @@ import {
   backgroundBeigeColor,
   blackColor,
   inputBorderColor,
+  primaryColor,
   textSecondaryColor,
   whiteColor,
 } from '../constants/Color';
@@ -67,10 +73,23 @@ const ProfileScreen = () => {
   const account = route.params?.account;
 
   const [activeTab, setActiveTab] = useState(TAB_COMPANY_ID);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [companyName, setCompanyName] = useState('');
   const [companyDetailSections, setCompanyDetailSections] = useState([]);
   const [contactsList, setContactsList] = useState([]);
   const [addressesList, setAddressesList] = useState([]);
+
+  const handleLogoutPress = () => setShowLogoutModal(true);
+
+  const handleLogoutCancel = () => setShowLogoutModal(false);
+
+  const handleLogoutConfirm = () => {
+    setShowLogoutModal(false);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: ROUTE_LOGIN }],
+    });
+  };
 
   useEffect(() => {
     // TODO: replace with API response
@@ -191,10 +210,13 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView style={[flex, styles.safeArea]}>
-      <ScrollView
-        style={flex}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}>
+      <View
+        style={[
+          flexDirectionRow,
+          alignItemsCenter,
+          justifyContentSpaceBetween,
+          styles.headerRow,
+        ]}>
         <TouchableOpacity
           style={[flexDirectionRow, alignItemsCenter, styles.backButton]}
           onPress={() => navigation.goBack()}
@@ -203,6 +225,21 @@ const ProfileScreen = () => {
           <Text style={styles.backText}>{BACK_TO_DASHBOARD}</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          style={[flexDirectionRow, alignItemsCenter, styles.logoutButton]}
+          onPress={handleLogoutPress}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel={LOGOUT}>
+          <Icon name="logout-variant" size={20} color={primaryColor} />
+          <Text style={styles.logoutText}>{LOGOUT}</Text>
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView
+        style={flex}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>{COMPANY_PROFILE_TITLE}</Text>
         <Text style={styles.subtitle}>{companyName}</Text>
 
@@ -216,7 +253,7 @@ const ProfileScreen = () => {
           onChange={setActiveTab}
         />
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[flexDirectionRow, alignItemsCenter, justifyContentSpaceBetween, styles.notificationBar]}
           activeOpacity={0.7}>
           <View style={[flexDirectionRow, alignItemsCenter]}>
@@ -226,10 +263,19 @@ const ProfileScreen = () => {
             <Text style={styles.notificationText}>{NOTIFICATION_SETTINGS}</Text>
           </View>
           <Icon name="chevron-right" size={24} color={textSecondaryColor} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <View style={styles.contentArea}>{renderTabContent()}</View>
       </ScrollView>
+
+      <ConfirmModal
+        visible={showLogoutModal}
+        variant="logout"
+        title={LOGOUT_CONFIRM_TITLE}
+        message={LOGOUT_CONFIRM_MESSAGE}
+        onConfirm={handleLogoutConfirm}
+        onCancel={handleLogoutCancel}
+      />
     </SafeAreaView>
   );
 };
@@ -241,13 +287,33 @@ const styles = StyleSheet.create({
     backgroundColor: backgroundBeigeColor,
     flex: 1,
   },
-  scrollContent: {
+  headerRow: {
     paddingHorizontal: spacings.xxxxLarge,
     paddingTop: spacings.large,
+    marginBottom: spacings.xxLarge,
+  },
+  scrollContent: {
+    paddingHorizontal: spacings.xxxxLarge,
     paddingBottom: spacings.ExtraLarge,
   },
   backButton: {
-    marginBottom: spacings.xxLarge,
+    flex: 1,
+    marginRight: spacings.large,
+  },
+  logoutButton: {
+    height: 40,
+    paddingHorizontal: spacings.large,
+    borderRadius: 10,
+    backgroundColor: whiteColor,
+    borderWidth: 1,
+    borderColor: inputBorderColor,
+    flexShrink: 0,
+  },
+  logoutText: {
+    ...style.fontSizeNormal,
+    ...style.fontWeightMedium,
+    color: primaryColor,
+    marginLeft: spacings.small,
   },
   backText: {
     ...style.fontSizeNormal2x,
@@ -259,7 +325,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: blackColor,
     marginBottom: spacings.small,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   subtitle: {
     ...style.fontSizeNormal,

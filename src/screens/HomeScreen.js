@@ -60,6 +60,7 @@ import {
   blackColor,
   creditDotColor,
   darkCardColor,
+  inputBorderColor,
   lightGrayColor,
   outstandingDotColor,
   primaryColor,
@@ -168,7 +169,7 @@ const HomeScreen = () => {
   };
 
   const handleOrders = () => {
-    // navigation.navigate(ROUTE_ORDERS);
+    navigation.navigate(ROUTE_ORDERS);
   };
 
   const handleQuickReorder = () => {
@@ -287,12 +288,12 @@ const HomeScreen = () => {
               <TouchableOpacity
                 style={[styles.iconButton, alignJustifyCenter]}
                 activeOpacity={0.7}
-              // onPress={() =>
-              //   navigation.navigate(ROUTE_CART, {
-              //     fromHome: true,
-              //     account,
-              //   })
-              // }
+                onPress={() =>
+                  navigation.navigate(ROUTE_CART, {
+                    fromHome: true,
+                    account,
+                  })
+                }
               >
                 <Icon name="shopping-outline" size={22} color={blackColor} />
                 <View style={[styles.badge, alignJustifyCenter]}>
@@ -301,7 +302,7 @@ const HomeScreen = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.iconButton, styles.profileButton, alignJustifyCenter]}
-                // onPress={() => navigation.navigate(ROUTE_PROFILE, { account })}
+                onPress={() => navigation.navigate(ROUTE_PROFILE, { account })}
                 activeOpacity={0.7}>
                 <Icon name="account-circle-outline" size={26} color={blackColor} />
               </TouchableOpacity>
@@ -329,6 +330,22 @@ const HomeScreen = () => {
                   {OUTSTANDING_LABEL} {outstanding}
                 </Text>
               </View>
+            </View>
+          </View>
+
+          <View style={[flexDirectionRow, styles.creditOutstandingRow]}>
+            <View style={[styles.financeMiniCard, alignJustifyCenter]}>
+              <Text style={styles.financeMiniValue}>{credit}</Text>
+              <Text style={styles.financeMiniLabel}>
+                {CREDIT_LABEL.replace(':', '').trim()}
+              </Text>
+            </View>
+            <View style={styles.statGap} />
+            <View style={[styles.financeMiniCard, alignJustifyCenter]}>
+              <Text style={styles.financeMiniValue}>{outstanding}</Text>
+              <Text style={styles.financeMiniLabel}>
+                {OUTSTANDING_LABEL.replace(':', '').trim()}
+              </Text>
             </View>
           </View>
 
@@ -390,7 +407,7 @@ const HomeScreen = () => {
         </ListSectionCard>
 
         <ListSectionCard title={SUPPORT_TICKETS} onViewAll={() => {
-          // navigation.navigate(ROUTE_RAISE_ENQUIRY)
+          navigation.navigate(ROUTE_RAISE_ENQUIRY)
         }}>
           {supportTicketsList.map((ticket, index) => (
             <TicketListItem
@@ -443,7 +460,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: blackColor,
     marginBottom: spacings.xsmall,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   accountId: {
     ...style.fontSizeNormal,
@@ -502,7 +519,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: whiteColor,
     marginVertical: spacings.large,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   balanceFooter: {
     gap: spacings.xxLarge,
@@ -516,6 +533,44 @@ const styles = StyleSheet.create({
   balanceMeta: {
     ...style.fontSizeNormal,
     color: lightGrayColor,
+  },
+  creditOutstandingRow: {
+    ...width100Percent,
+    marginBottom: spacings.large,
+  },
+  financeMiniCard: {
+    width: wp(44),
+    backgroundColor: whiteColor,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: inputBorderColor,
+    paddingVertical: spacings.xLarge,
+    paddingHorizontal: spacings.normal,
+    marginRight: spacings.small,
+
+  },
+  financeMiniCardCredit: {
+    borderTopWidth: 3,
+    borderTopColor: creditDotColor,
+  },
+  financeMiniCardOutstanding: {
+    borderTopWidth: 3,
+    borderTopColor: outstandingDotColor,
+  },
+  financeMiniValue: {
+    ...style.fontSizeLarge,
+    ...style.fontWeightMedium,
+    color: blackColor,
+    textAlign: 'center',
+    marginBottom: spacings.small,
+  },
+  financeMiniLabel: {
+    ...style.fontSizeExtraSmall,
+    ...style.fontWeightMedium1x,
+    color: textSecondaryColor,
+    textAlign: 'center',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
   },
   quickReorder: {
     ...width100Percent,

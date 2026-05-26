@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Platform,
   Pressable,
@@ -8,9 +8,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ROUTE_FORGOT_PASSWORD, ROUTE_SELECT_ACCOUNT } from '../navigation/AppNavigator';
+import {
+  ROUTE_FORGOT_PASSWORD,
+  ROUTE_HOME,
+  ROUTE_REGISTER,
+  ROUTE_SELECT_ACCOUNT,
+} from '../navigation/AppNavigator';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomButton from '../components/CustomButton';
@@ -23,8 +28,10 @@ import {
   EMAIL_PLACEHOLDER,
   EMAIL_REQUIRED,
   FORGOT_PASSWORD,
+  NEED_HELP,
   NO_ACCOUNT,
   OR_CONTINUE_WITH,
+  SIGN_UP,
   PASSWORD_LABEL,
   PASSWORD_MIN_LENGTH,
   PASSWORD_PLACEHOLDER,
@@ -90,13 +97,29 @@ const validateRememberMe = checked => {
   return '';
 };
 
+const INITIAL_LOGIN_ERRORS = { email: '', password: '', rememberMe: '' };
+
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const [errors, setErrors] = useState({ email: '', password: '', rememberMe: '' });
+  const [errors, setErrors] = useState(INITIAL_LOGIN_ERRORS);
   const [showContactSalesModal, setShowContactSalesModal] = useState(false);
+
+  const resetForm = useCallback(() => {
+    setEmail('');
+    setPassword('');
+    setRememberMe(false);
+    setErrors(INITIAL_LOGIN_ERRORS);
+    setShowContactSalesModal(false);
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      resetForm();
+    }, [resetForm]),
+  );
 
   const handleEmailChange = value => {
     setEmail(value);
@@ -137,7 +160,9 @@ const LoginScreen = () => {
     });
 
     if (isCredentialsValid && !rememberMeError) {
-      navigation.navigate(ROUTE_SELECT_ACCOUNT);
+      navigation.navigate(ROUTE_HOME);
+
+      // navigation.navigate(ROUTE_SELECT_ACCOUNT);
     }
   };
 
@@ -214,31 +239,40 @@ const LoginScreen = () => {
             style={styles.signInButton}
           />
 
+          <Text style={[styles.signUpText, textAlign]}>
+            {NO_ACCOUNT}{' '}
+            <Text
+              style={styles.footerLink}
+              onPress={() => navigation.navigate(ROUTE_REGISTER)}>
+              {SIGN_UP}
+            </Text>
+          </Text>
+
           <View style={[flexDirectionRow, alignItemsCenter, styles.dividerRow]}>
             <View style={styles.dividerLine} />
             <Text style={styles.dividerText}>{OR_CONTINUE_WITH}</Text>
             <View style={styles.dividerLine} />
           </View>
 
-          <View style={[flexDirectionRow, justifyContentSpaceBetween, styles.socialRow]}>
+          <View style={[flexDirectionRow, Platform.OS === 'ios' ? justifyContentSpaceBetween : { justifyContent: 'center' }, styles.socialRow]}>
             <CustomButton
               variant="outline"
               onPress={() => { }}
-              style={styles.socialButton}
+              style={[Platform.OS === 'ios' ? styles.socialButton : { width: wp(40), alignSelf: 'center' }]}
               activeOpacity={0.7}>
               <FontAwesome name="google" size={22} color={blackColor} />
             </CustomButton>
-            <CustomButton
+            {Platform.OS === 'ios' && <CustomButton
               variant="outline"
               onPress={() => { }}
               style={styles.socialButton}
               activeOpacity={0.7}>
               <Icon name="apple" size={26} color={blackColor} />
-            </CustomButton>
+            </CustomButton>}
           </View>
 
-          <Text style={[styles.footerText, textAlign]}>
-            {NO_ACCOUNT}{' '}
+          <Text style={[styles.footerText, textAlign, styles.footerTextSecondary]}>
+            {NEED_HELP}{' '}
             <Text
               style={styles.footerLink}
               onPress={() => setShowContactSalesModal(true)}>
@@ -281,7 +315,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: blackColor,
     marginBottom: spacings.normal,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   subtitle: {
     ...style.fontSizeNormal2x,
@@ -316,11 +350,17 @@ const styles = StyleSheet.create({
     color: primaryColor,
   },
   signInButton: {
-    marginVertical: spacings.xxLarge,
+    marginTop: spacings.xxLarge,
+    marginBottom: spacings.normal,
+  },
+  signUpText: {
+    ...style.fontSizeNormal,
+    color: textSecondaryColor,
+    marginVertical: hp(3),
   },
   dividerRow: {
     ...width100Percent,
-    marginVertical: spacings.xxLarge,
+    marginBottom: spacings.xxLarge,
   },
   dividerLine: {
     flex: 1,
@@ -336,7 +376,7 @@ const styles = StyleSheet.create({
   },
   socialRow: {
     ...width100Percent,
-    marginVertical: spacings.xxxxLarge,
+    marginVertical: spacings.xxLarge,
     gap: spacings.large,
   },
   socialButton: {
@@ -345,7 +385,9 @@ const styles = StyleSheet.create({
   footerText: {
     ...style.fontSizeNormal,
     color: textSecondaryColor,
-    marginTop: spacings.large
+  },
+  footerTextSecondary: {
+    marginTop: spacings.xxLarge,
   },
   footerLink: {
     color: primaryColor,

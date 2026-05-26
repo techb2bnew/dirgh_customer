@@ -38,7 +38,7 @@ import {
 import { BaseStyle } from '../constants/Style';
 import { style, spacings } from '../constants/Fonts';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from '../utils';
-import { ROUTE_CATEGORIES, ROUTE_ORDERS } from '../navigation/AppNavigator';
+import { ROUTE_CART, ROUTE_CATEGORIES, ROUTE_ORDERS } from '../navigation/AppNavigator';
 
 const {
   flex,
@@ -56,7 +56,6 @@ const NewOrderScreen = () => {
   const navigation = useNavigation();
   const [productList, setProductList] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(true);
 
   useEffect(() => {
@@ -223,18 +222,21 @@ const NewOrderScreen = () => {
     });
   };
 
-  const handlePlaceOrder = async () => {
+  const handlePlaceOrder = () => {
     if (totalQuantity === 0) {
       return;
     }
-    setIsPlacingOrder(true);
-    try {
-      // TODO: API place order
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      navigation.goBack();
-    } finally {
-      setIsPlacingOrder(false);
-    }
+    navigation.navigate(ROUTE_CART, {
+      cartItems: cartItems.map(item => ({
+        id: item.id,
+        name: item.name,
+        sku: item.sku,
+        packaging: item.category,
+        price: item.price,
+        stock: item.stock,
+        quantity: item.quantity,
+      })),
+    });
   };
 
   const hasCartItems = totalQuantity > 0;
@@ -358,7 +360,6 @@ const NewOrderScreen = () => {
             <CustomButton
               title={PLACE_ORDER}
               onPress={handlePlaceOrder}
-              loading={isPlacingOrder}
               style={styles.placeOrderButton}
             />
           </View>
@@ -398,7 +399,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: blackColor,
     marginBottom: spacings.xsmall,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   subtitle: {
     ...style.fontSizeNormal,
@@ -473,7 +474,7 @@ const styles = StyleSheet.create({
     ...style.fontSizeLarge3x,
     ...style.fontWeightMedium1x,
     color: whiteColor,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
     marginRight: spacings.normal,
   },
   inclTax: {

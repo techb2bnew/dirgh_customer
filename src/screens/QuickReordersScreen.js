@@ -200,7 +200,7 @@ const QuickReordersScreen = () => {
         quantity: item.currentQty,
       }));
 
-    // navigation.navigate(ROUTE_CART, { cartItems });
+    navigation.navigate(ROUTE_CART, { cartItems });
   };
 
   return (
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     ...style.fontWeightMedium1x,
     color: blackColor,
     marginBottom: spacings.small,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   subtitle: {
     ...style.fontSizeNormal,

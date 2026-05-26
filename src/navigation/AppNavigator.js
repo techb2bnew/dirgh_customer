@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 import FinancialSummaryScreen from '../screens/FinancialSummaryScreen';
 import MakePaymentScreen from '../screens/MakePaymentScreen';
 import NewOrderScreen from '../screens/NewOrderScreen';
@@ -22,6 +23,7 @@ import SelectAccountScreen from '../screens/SelectAccountScreen';
 import ViewLedgerScreen from '../screens/ViewLedgerScreen';
 
 export const ROUTE_LOGIN = 'Login';
+export const ROUTE_REGISTER = 'Register';
 export const ROUTE_FORGOT_PASSWORD = 'ForgotPassword';
 export const ROUTE_SELECT_ACCOUNT = 'SelectAccount';
 export const ROUTE_HOME = 'Home';
@@ -50,6 +52,7 @@ const AppNavigator = () => {
       initialRouteName={ROUTE_LOGIN}
       screenOptions={{ headerShown: false }}>
       <Stack.Screen name={ROUTE_LOGIN} component={LoginScreen} />
+      <Stack.Screen name={ROUTE_REGISTER} component={RegisterScreen} />
       <Stack.Screen name={ROUTE_FORGOT_PASSWORD} component={ForgotPasswordScreen} />
       <Stack.Screen name={ROUTE_SELECT_ACCOUNT} component={SelectAccountScreen} />
       <Stack.Screen name={ROUTE_HOME} component={HomeScreen} />

@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     color: blackColor,
     textAlign: 'center',
     marginBottom: spacings.normal,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   successMessage: {
     ...style.fontSizeNormal2x,
@@ -424,7 +424,7 @@ const styles = StyleSheet.create({
     ...style.fontSizeLarge,
     ...style.fontWeightMedium1x,
     color: blackColor,
-    fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
+    // fontFamily: Platform.select({ ios: 'Georgia', android: 'serif' }),
   },
   infoBanner: {
     backgroundColor: actionPurpleBgColor,
